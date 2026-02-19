@@ -86,7 +86,7 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
 
       <div className="text-center mb-6 md:mb-8">
         <h2 className="text-2xl md:text-4xl font-heading font-bold text-brand-dark mb-2">Identification</h2>
-        <p className="text-slate-500 text-sm md:text-lg">Calibrez le scan avec les informations de votre véhicule.</p>
+        <p className="text-slate-500 text-sm md:text-lg">Confirmez les informations de votre véhicule récupérées.</p>
       </div>
 
       {status === 'IDLE' && (
