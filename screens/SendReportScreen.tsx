@@ -40,7 +40,7 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
           >
             <Send className="w-16 h-16 text-brand-primary" />
           </motion.div>
-          <h2 className="text-3xl font-heading font-bold text-brand-dark mb-4 italic uppercase">Demandes envoyées !</h2>
+          <h2 className="text-3xl font-heading font-bold text-brand-primary mb-4 italic uppercase">Demandes envoyées !</h2>
           <p className="text-lg text-slate-500 mb-8 max-w-xl">
             Votre rapport technique et vos précisions ont été transmis aux <strong>{selectedIds.length} garages</strong>.
           </p>
@@ -57,7 +57,7 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
   return (
     <div className="max-w-6xl mx-auto min-h-full flex flex-col px-6 py-8 md:py-12">
        <div className="mb-10 border-b border-slate-100 pb-8">
-        <h2 className="text-3xl md:text-5xl font-heading font-bold text-brand-dark mb-3">Appel d'offres</h2>
+        <h2 className="text-3xl md:text-5xl font-heading font-bold text-brand-primary mb-3">Appel d'offres</h2>
         <p className="text-slate-500 text-lg">
           Sélectionnez les garages pour obtenir des devis précis.
         </p>
@@ -107,7 +107,7 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
         {/* Right: Contact & Observations */}
         <div className="flex-[1.2] flex flex-col">
           <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 flex flex-col h-full shadow-xl">
-             <h3 className="text-xl font-bold text-brand-dark mb-8 flex items-center gap-3 font-heading">
+             <h3 className="text-xl font-bold text-brand-primary mb-8 flex items-center gap-3 font-heading">
                 <div className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center text-brand-primary"><MessageSquare size={18} /></div>
                 Détails
              </h3>

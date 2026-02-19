@@ -75,7 +75,7 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
           {/* Text Instructions */}
           <div className="flex-1 text-center lg:text-left">
             <span className="text-brand-primary font-heading font-bold text-xs tracking-widest uppercase opacity-70 mb-2 block">Étape {step + 1} / 2</span>
-            <h2 className="text-3xl md:text-5xl font-heading font-bold text-brand-dark mb-4 md:mb-6 leading-tight">{steps[step].title}</h2>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-brand-primary mb-4 md:mb-6 leading-tight">{steps[step].title}</h2>
             <p className="text-lg md:text-xl text-slate-500 mb-8 max-w-xl">{steps[step].desc}</p>
 
             <div className="space-y-3 mb-10">

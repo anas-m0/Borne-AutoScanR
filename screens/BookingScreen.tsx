@@ -36,7 +36,7 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
         <div className="bg-green-100 p-8 rounded-full mb-8 text-green-600 shadow-inner">
           <CheckCircle className="w-24 h-24" />
         </div>
-        <h2 className="text-4xl font-heading font-bold text-brand-dark mb-4 uppercase italic">Rendez-vous fixé</h2>
+        <h2 className="text-4xl font-heading font-bold text-brand-primary mb-4 uppercase italic">Rendez-vous fixé</h2>
         <p className="text-xl text-slate-500 mb-8 max-w-xl">
           Confirmation transmise à <strong>{garage.name}</strong>. Un SMS de rappel vous a été envoyé.
         </p>
@@ -47,7 +47,7 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
   return (
     <div className="max-w-6xl mx-auto min-h-full flex flex-col px-6 py-12">
       <div className="mb-10 border-b border-slate-100 pb-8">
-        <h2 className="text-4xl font-heading font-bold text-brand-dark mb-3">Planification</h2>
+        <h2 className="text-4xl font-heading font-bold text-brand-primary mb-3">Planification</h2>
         <div className="flex items-center gap-3">
            <div className="bg-brand-primary/10 px-4 py-1.5 rounded-full border border-brand-primary/20 text-brand-primary text-xs font-black uppercase">{garage.name}</div>
            <span className="text-slate-400 text-xs font-bold uppercase tracking-widest">{garage.distance}</span>
@@ -56,7 +56,7 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
 
       <div className="flex flex-col lg:flex-row gap-10">
         <div className="flex-1 bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100">
-            <h3 className="text-xl font-bold text-brand-dark mb-8 flex items-center gap-3">
+            <h3 className="text-xl font-bold text-brand-primary mb-8 flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center text-brand-primary"><Calendar size={18} /></div>
               1. Créneau
             </h3>
@@ -86,7 +86,7 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
         </div>
 
         <div className="flex-[1.2] bg-white p-8 rounded-[2.5rem] shadow-xl border border-slate-100">
-            <h3 className="text-xl font-bold text-brand-dark mb-8 flex items-center gap-3">
+            <h3 className="text-xl font-bold text-brand-primary mb-8 flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-brand-accent/10 flex items-center justify-center text-brand-accent"><User size={18} /></div>
               2. Coordonnées
             </h3>

@@ -56,7 +56,7 @@ const ScanningScreen: React.FC<Props> = ({ onComplete }) => {
         >
           <Activity size={14} /> Diagnostic actif
         </motion.div>
-        <h2 className="text-2xl font-heading font-bold text-brand-dark uppercase tracking-tight">
+        <h2 className="text-2xl font-heading font-bold text-brand-primary uppercase tracking-tight">
           Analyse des calculateurs
         </h2>
       </div>
@@ -68,7 +68,7 @@ const ScanningScreen: React.FC<Props> = ({ onComplete }) => {
       >
         <div className="flex-1 p-8 flex flex-col justify-center relative z-10">
             <span className="text-[10px] font-black text-brand-accent uppercase tracking-widest mb-2">Partenaire Sécurité</span>
-            <h3 className="text-3xl font-heading font-bold text-brand-dark mb-4 leading-tight">
+            <h3 className="text-3xl font-heading font-bold text-brand-primary mb-4 leading-tight">
               Pneumatiques<br/>
               <span className="text-brand-primary">-20% chez EuroMaster</span>
             </h3>

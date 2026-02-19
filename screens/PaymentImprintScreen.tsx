@@ -21,14 +21,14 @@ const PaymentImprintScreen: React.FC<Props> = ({ onAuthorized }) => {
   return (
     <div className="max-w-6xl mx-auto min-h-full flex flex-col justify-center px-10 py-16">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-heading font-bold text-brand-dark mb-4">Paiement Sécurisé</h2>
+        <h2 className="text-4xl font-heading font-bold text-brand-primary mb-4">Paiement Sécurisé</h2>
         <p className="text-slate-500 text-lg">L'empreinte bancaire autorise le lancement immédiat du scan.</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-10 items-stretch">
         <div className="flex-1 bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100">
           <div className="flex justify-between items-baseline mb-8">
-            <h3 className="text-2xl font-heading font-bold text-brand-dark">Bilan Complet</h3>
+            <h3 className="text-2xl font-heading font-bold text-brand-primary">Bilan Complet</h3>
             <span className="text-4xl font-heading font-black text-brand-primary">19,90€</span>
           </div>
           <div className="space-y-4 mb-10">

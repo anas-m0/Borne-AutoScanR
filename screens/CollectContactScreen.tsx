@@ -32,31 +32,31 @@ const CollectContactScreen: React.FC<Props> = ({ onComplete }) => {
 
       <div className="w-full max-w-2xl bg-white rounded-[3rem] p-12 shadow-2xl border border-slate-100 relative">
         <div className="flex bg-slate-100 p-1.5 rounded-2xl mb-12">
-            <button onClick={() => setMethod('EMAIL')} className={`flex-1 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${method === 'EMAIL' ? 'bg-white text-brand-primary shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>Email</button>
-            <button onClick={() => setMethod('SMS')} className={`flex-1 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${method === 'SMS' ? 'bg-white text-brand-primary shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>SMS</button>
+          <button onClick={() => setMethod('EMAIL')} className={`flex-1 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${method === 'EMAIL' ? 'bg-white text-brand-primary shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>Email</button>
+          <button onClick={() => setMethod('SMS')} className={`flex-1 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${method === 'SMS' ? 'bg-white text-brand-primary shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>SMS</button>
         </div>
 
         {!isSent ? (
-            <div className="space-y-8">
-                <input 
-                    type={method === 'EMAIL' ? 'email' : 'tel'}
-                    placeholder={method === 'EMAIL' ? 'jean.dupont@gmail.com' : '06 12 34 56 78'}
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-8 py-6 text-xl text-slate-900 focus:outline-none focus:border-brand-primary transition-all text-center placeholder-slate-300"
-                />
-                <Button variant="primary" onClick={handleSend} isLoading={loading} disabled={value.length < 5} className="w-full py-6 text-xl" icon={<Send />}>
-                    Envoyer maintenant
-                </Button>
-            </div>
+          <div className="space-y-8">
+            <input
+              type={method === 'EMAIL' ? 'email' : 'tel'}
+              placeholder={method === 'EMAIL' ? 'jean.dupont@gmail.com' : '06 12 34 56 78'}
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-8 py-6 text-xl text-slate-900 focus:outline-none focus:border-brand-primary transition-all text-center placeholder-slate-300"
+            />
+            <Button variant="primary" onClick={handleSend} isLoading={loading} disabled={value.length < 5} className="w-full py-6 text-xl" icon={<Send />}>
+              Envoyer maintenant
+            </Button>
+          </div>
         ) : (
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex flex-col items-center py-6 text-center">
-                <div className="w-24 h-24 bg-teal-50 rounded-full flex items-center justify-center mb-6 border border-teal-100">
-                    <CheckCircle2 className="text-teal-500 w-12 h-12" />
-                </div>
-                <h3 className="text-3xl font-heading font-bold text-slate-900 mb-2">C'est envoyé !</h3>
-                <p className="text-slate-500">Votre rapport arrive dans votre messagerie.</p>
-            </motion.div>
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex flex-col items-center py-6 text-center">
+            <div className="w-24 h-24 bg-teal-50 rounded-full flex items-center justify-center mb-6 border border-teal-100">
+              <CheckCircle2 className="text-teal-500 w-12 h-12" />
+            </div>
+            <h3 className="text-3xl font-heading font-bold text-slate-900 mb-2">C'est envoyé !</h3>
+            <p className="text-slate-500">Votre rapport arrive dans votre messagerie.</p>
+          </motion.div>
         )}
       </div>
     </div>

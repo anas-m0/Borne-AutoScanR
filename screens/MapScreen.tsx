@@ -19,7 +19,7 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
       {/* List / Sidebar */}
       <div className="w-full md:w-1/3 bg-white border-r border-slate-100 flex flex-col z-20 shadow-xl relative">
         <div className="p-6 border-b border-slate-50 bg-slate-50/50">
-          <h2 className="text-xl font-heading font-bold text-brand-dark">Garages Partenaires</h2>
+          <h2 className="text-xl font-heading font-bold text-brand-primary">Garages Partenaires</h2>
           <p className="text-xs text-slate-400 mt-1 font-bold uppercase tracking-widest">3 pros à proximité</p>
         </div>
 
@@ -33,7 +33,7 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
               className={`p-6 border-b border-slate-50 cursor-pointer transition-all duration-300 hover:bg-slate-50 ${selectedGarage === garage.id ? 'bg-brand-primary/5 border-l-4 border-l-brand-primary' : 'border-l-4 border-l-transparent'}`}
             >
               <div className="flex justify-between items-start mb-2">
-                <h3 className="font-bold text-brand-dark">{garage.name}</h3>
+                <h3 className="font-bold text-brand-primary">{garage.name}</h3>
                 <span className="bg-slate-100 text-slate-500 text-[10px] font-black px-2 py-1 rounded-lg">
                   {garage.distance}
                 </span>

@@ -29,19 +29,19 @@ const UnplugScreen: React.FC<Props> = ({ onComplete }) => {
   return (
     <div className="max-w-5xl mx-auto min-h-full flex flex-col items-center justify-center px-10 py-16 text-center">
       <div className="mb-12">
-        <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-dark mb-4">Récupération</h2>
+        <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-primary mb-4">Récupération</h2>
         <p className="text-slate-500 text-xl font-light">Le scan est terminé, merci de libérer le matériel.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl mb-12">
         <div className="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col items-center">
            <div className="w-20 h-20 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-6 shadow-inner"><PowerOff size={40} /></div>
-           <h3 className="text-2xl font-heading font-bold text-brand-dark mb-4">1. Débranchez</h3>
+           <h3 className="text-2xl font-heading font-bold text-brand-primary mb-4">1. Débranchez</h3>
            <p className="text-slate-500 text-sm">Retirez le câble et coupez le contact du véhicule.</p>
         </div>
         <div className="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col items-center">
            <div className="w-20 h-20 rounded-2xl bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-6 shadow-inner"><RotateCcw size={40} /></div>
-           <h3 className="text-2xl font-heading font-bold text-brand-dark mb-4">2. Rangez</h3>
+           <h3 className="text-2xl font-heading font-bold text-brand-primary mb-4">2. Rangez</h3>
            <p className="text-slate-500 text-sm">Replacez le câble et refermez la trappe de la borne.</p>
         </div>
       </div>

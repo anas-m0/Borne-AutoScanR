@@ -32,7 +32,7 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
 
           <div className="bg-white p-6 rounded-3xl flex flex-col justify-center shadow-lg border border-slate-100">
               <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">Véhicule</p>
-              <h3 className="text-2xl font-bold text-brand-dark truncate">{vehicleName}</h3>
+              <h3 className="text-2xl font-bold text-brand-primary truncate">{vehicleName}</h3>
           </div>
 
           <div className={`p-6 rounded-3xl flex items-center gap-4 shadow-lg border ${issuesFound ? 'bg-amber-50 border-amber-100' : 'bg-green-50 border-green-100'}`}>
@@ -66,7 +66,7 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
                             <AlertTriangle size={20} />
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold text-brand-dark">{issue.title}</h3>
+                            <h3 className="text-lg font-bold text-brand-primary">{issue.title}</h3>
                             <p className="text-xs font-mono text-slate-400">{issue.code}</p>
                         </div>
                     </div>

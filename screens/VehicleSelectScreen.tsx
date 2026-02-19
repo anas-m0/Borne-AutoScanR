@@ -25,7 +25,28 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
   // Form states
   const [plate, setPlate] = useState('');
   const [vin, setVin] = useState('');
-  const [manualData, setManualData] = useState({ brand: '', model: '', year: '2024' });
+  const [manualData, setManualData] = useState({ brand: '', model: '', year: new Date().getFullYear().toString() });
+  const [manualStep, setManualStep] = useState<'BRAND' | 'MODEL' | 'YEAR'>('BRAND');
+
+  const popularBrands = [
+    { id: 'peugeot', name: 'Peugeot', logo: '🦁' },
+    { id: 'renault', name: 'Renault', logo: '♦️' },
+    { id: 'citroen', name: 'Citroën', logo: '⏫' },
+    { id: 'volkswagen', name: 'Volkswagen', logo: 'VW' },
+    { id: 'audi', name: 'Audi', logo: '⭕' },
+    { id: 'bmw', name: 'BMW', logo: '🔵' },
+  ];
+
+  const modelsByBrand: Record<string, string[]> = {
+    peugeot: ['208', '2008', '308', '3008', '5008'],
+    renault: ['Clio', 'Captur', 'Megane', 'Arkana', 'Austral'],
+    citroen: ['C3', 'C3 Aircross', 'C4', 'C5 Aircross'],
+    volkswagen: ['Polo', 'Golf', 'Tiguan', 'T-Roc'],
+    audi: ['A1', 'A3', 'Q2', 'Q3'],
+    bmw: ['Série 1', 'X1', 'Série 3', 'X3'],
+  };
+
+  const years = Array.from({ length: 15 }, (_, i) => (new Date().getFullYear() - i).toString());
 
   const handleSearch = () => {
     setStatus('SEARCHING');
@@ -121,9 +142,21 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
                 <div className="relative bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex h-20 md:h-24 overflow-hidden ring-1 ring-slate-100 transform transition-transform hover:scale-[1.01]">
                   {/* Left Blue Band (EU) */}
                   <div className="w-10 md:w-14 bg-[#0545a8] flex flex-col items-center justify-between py-2 shrink-0">
-                    <div className="flex flex-wrap justify-center w-6 gap-0.5 mt-1 opacity-90">
-                      {Array(12).fill(0).map((_, i) => <div key={i} className="w-0.5 h-0.5 bg-yellow-400 rounded-full" />)}
-                    </div>
+                    <svg viewBox="0 0 100 100" className="w-6 h-6 md:w-7 md:h-7 mt-1 opacity-90 overflow-visible">
+                      {Array.from({ length: 12 }).map((_, i) => {
+                        const angle = (i * 30 * Math.PI) / 180;
+                        const x = 50 + 35 * Math.sin(angle);
+                        const y = 50 - 35 * Math.cos(angle);
+                        return (
+                          <path
+                            key={i}
+                            d="M0,-6 L1.3,-1.8 L5.7,-1.8 L2.2,0.7 L3.5,4.9 L0,2.3 L-3.5,4.9 L-2.2,0.7 L-5.7,-1.8 L-1.3,-1.8 Z"
+                            fill="#FBBF24"
+                            transform={`translate(${x}, ${y})`}
+                          />
+                        );
+                      })}
+                    </svg>
                     <span className="text-white font-bold text-lg leading-none mb-1">F</span>
                   </div>
 
@@ -152,11 +185,6 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
                   </div>
                 </div>
 
-                {method === 'PLATE' && plate.length < 9 && (
-                  <div className="text-center mt-4">
-                    <span className="text-xs text-slate-400 font-medium bg-slate-50 px-3 py-1 rounded-full">Format : AA-123-AA</span>
-                  </div>
-                )}
               </div>
             )}
 
@@ -218,39 +246,107 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
             )}
 
             {method === 'MANUAL' && (
-              <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm col-span-1 md:col-span-2">
-                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Marque</label>
-                  <input
-                    type="text"
-                    value={manualData.brand}
-                    onChange={(e) => setManualData({ ...manualData, brand: e.target.value })}
-                    placeholder="Ex: Peugeot, Tesla..."
-                    className="w-full py-2 text-lg font-bold text-brand-dark outline-none border-b border-slate-50 focus:border-brand-primary"
-                  />
+              <div className="w-full max-w-2xl mx-auto mb-8 bg-white p-6 md:p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100">
+                {/* Progress Indicator */}
+                <div className="flex items-center justify-between mb-8 relative">
+                  <div className="absolute left-0 right-0 top-1/2 h-1 bg-slate-100 -z-10 -translate-y-1/2 rounded-full"></div>
+                  <div
+                    className="absolute left-0 top-1/2 h-1 bg-brand-primary -z-10 -translate-y-1/2 rounded-full transition-all duration-500"
+                    style={{ width: manualStep === 'BRAND' ? '0%' : manualStep === 'MODEL' ? '50%' : '100%' }}
+                  ></div>
+
+                  <StepIndicator active={true} completed={manualStep !== 'BRAND'} label="Marque" onClick={() => setManualStep('BRAND')} />
+                  <StepIndicator active={manualStep === 'MODEL' || manualStep === 'YEAR'} completed={manualStep === 'YEAR'} label="Modèle" onClick={() => manualData.brand && setManualStep('MODEL')} />
+                  <StepIndicator active={manualStep === 'YEAR'} completed={false} label="Année" onClick={() => manualData.model && setManualStep('YEAR')} />
                 </div>
-                <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Modèle</label>
-                  <input
-                    type="text"
-                    value={manualData.model}
-                    onChange={(e) => setManualData({ ...manualData, model: e.target.value })}
-                    placeholder="Ex: 208, Model 3..."
-                    className="w-full py-2 text-lg font-bold text-brand-dark outline-none border-b border-slate-50 focus:border-brand-primary"
-                  />
-                </div>
-                <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-                  <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2 block">Année</label>
-                  <select
-                    value={manualData.year}
-                    onChange={(e) => setManualData({ ...manualData, year: e.target.value })}
-                    className="w-full py-2 text-lg font-bold text-brand-dark bg-transparent outline-none cursor-pointer"
-                  >
-                    {[2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015].map(y => (
-                      <option key={y} value={y}>{y}</option>
-                    ))}
-                  </select>
-                </div>
+
+                <AnimatePresence mode="wait">
+                  {manualStep === 'BRAND' && (
+                    <motion.div key="brand" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
+                      <h3 className="text-center font-bold text-slate-800 mb-6 font-heading">Sélectionnez la marque</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {popularBrands.map(brand => (
+                          <button
+                            key={brand.id}
+                            onClick={() => {
+                              setManualData({ ...manualData, brand: brand.name, model: '' });
+                              setManualStep('MODEL');
+                            }}
+                            className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all ${manualData.brand === brand.name ? 'border-brand-primary bg-brand-primary/5 shadow-md' : 'border-slate-100 hover:border-brand-primary/30 hover:bg-slate-50'}`}
+                          >
+                            <span className="text-3xl grayscale opacity-70">{brand.logo}</span>
+                            <span className="font-bold text-sm text-slate-700">{brand.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="mt-6 flex flex-col pt-6 border-t border-slate-100">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Autre marque</label>
+                        <input
+                          type="text"
+                          value={manualData.brand && !popularBrands.find(b => b.name === manualData.brand) ? manualData.brand : ''}
+                          onChange={(e) => setManualData({ ...manualData, brand: e.target.value })}
+                          placeholder="Saisissez la marque..."
+                          className="w-full py-3 px-4 rounded-xl border border-slate-200 text-slate-800 font-bold focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
+                        />
+                        {manualData.brand && !popularBrands.find(b => b.name === manualData.brand) && (
+                          <Button variant="secondary" onClick={() => setManualStep('MODEL')} className="mt-3 py-2 text-sm">Continuer</Button>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {manualStep === 'MODEL' && (
+                    <motion.div key="model" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
+                      <h3 className="text-center font-bold text-slate-800 mb-6 font-heading">Modèle {manualData.brand}</h3>
+                      {modelsByBrand[manualData.brand.toLowerCase()] ? (
+                        <div className="grid grid-cols-2 gap-3 mb-6">
+                          {modelsByBrand[manualData.brand.toLowerCase()].map(model => (
+                            <button
+                              key={model}
+                              onClick={() => {
+                                setManualData({ ...manualData, model });
+                                setManualStep('YEAR');
+                              }}
+                              className={`p-4 rounded-xl border-2 text-left transition-all ${manualData.model === model ? 'border-brand-primary bg-brand-primary/5 shadow-md' : 'border-slate-100 hover:border-brand-primary/30 hover:bg-slate-50'}`}
+                            >
+                              <span className="font-bold text-slate-700">{model}</span>
+                            </button>
+                          ))}
+                        </div>
+                      ) : null}
+                      <div className="flex flex-col pt-2 border-t border-slate-100">
+                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 px-1">Saisie manuelle</label>
+                        <input
+                          type="text"
+                          value={manualData.model}
+                          onChange={(e) => setManualData({ ...manualData, model: e.target.value })}
+                          placeholder="Saisissez le modèle..."
+                          className="w-full py-3 px-4 rounded-xl border border-slate-200 text-slate-800 font-bold focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
+                        />
+                        {manualData.model && (
+                          <Button variant="secondary" onClick={() => setManualStep('YEAR')} className="mt-3 py-2 text-sm">Continuer</Button>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {manualStep === 'YEAR' && (
+                    <motion.div key="year" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
+                      <h3 className="text-center font-bold text-slate-800 mb-6 font-heading">Année d'immatriculation</h3>
+                      <div className="grid grid-cols-4 gap-2 max-h-64 overflow-y-auto custom-scrollbar p-1">
+                        {years.map(year => (
+                          <button
+                            key={year}
+                            onClick={() => setManualData({ ...manualData, year })}
+                            className={`py-3 rounded-lg border-2 text-center transition-all ${manualData.year === year ? 'border-brand-primary bg-brand-primary text-white font-bold shadow-md' : 'border-slate-100 text-slate-600 hover:border-brand-primary/50'}`}
+                          >
+                            {year}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             )}
 
@@ -284,6 +380,19 @@ const SpecItem = ({ icon, label, value }: any) => (
       <p className="text-xs md:text-sm font-bold text-brand-dark truncate">{value}</p>
     </div>
   </div>
+);
+
+const StepIndicator = ({ active, completed, label, onClick }: any) => (
+  <button onClick={onClick} disabled={!active && !completed} className="flex flex-col items-center gap-2 group outline-none">
+    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all shadow-sm
+      ${completed ? 'bg-brand-primary text-white border-none' :
+        active ? 'bg-white border-2 border-brand-primary text-brand-primary' :
+          'bg-white border-2 border-slate-200 text-slate-300'}`}
+    >
+      {completed ? <CheckCircle2 size={16} /> : <div className={`w-2 h-2 rounded-full ${active ? 'bg-brand-primary' : 'bg-transparent'}`} />}
+    </div>
+    <span className={`text-[10px] font-bold uppercase tracking-widest ${active || completed ? 'text-slate-800' : 'text-slate-400'}`}>{label}</span>
+  </button>
 );
 
 export default VehicleSelectScreen;
