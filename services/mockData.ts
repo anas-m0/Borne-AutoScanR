@@ -17,7 +17,7 @@ export const mockIssues: DiagnosticIssue[] = [
     recommendation: "Pas de danger immédiat, mais cela augmente la consommation. À faire vérifier.",
     system: "engine"
   },
-   {
+  {
     code: "C0035",
     title: "Capteur vitesse roue avant gauche",
     description: "Signal erratique ou absent du capteur ABS de la roue avant gauche.",
@@ -30,29 +30,32 @@ export const mockIssues: DiagnosticIssue[] = [
 export const mockGarages: Garage[] = [
   {
     id: '1',
-    name: 'Garage Speedy Center',
-    distance: '0.8 km',
+    name: 'Garage Speedy Toulon Ouest',
+    distance: '1.2 km',
     rating: 4.5,
     nextAvailability: 'Aujourd\'hui 14h00',
     priceEstimate: '45€ - 90€',
-    coords: { x: 30, y: 40 }
+    lat: 43.1310,
+    lng: 5.9180
   },
   {
     id: '2',
-    name: 'Midas Auto Services',
-    distance: '1.2 km',
+    name: 'Midas Toulon Centre',
+    distance: '0.5 km',
     rating: 4.2,
     nextAvailability: 'Demain 09h00',
     priceEstimate: '50€ - 100€',
-    coords: { x: 70, y: 20 }
+    lat: 43.1255,
+    lng: 5.9350
   },
   {
     id: '3',
-    name: 'Atelier Mécanique Pro',
+    name: 'Atelier Mécanique Mourillon',
     distance: '2.5 km',
     rating: 4.8,
     nextAvailability: 'Aujourd\'hui 16h30',
     priceEstimate: 'Sur devis',
-    coords: { x: 50, y: 70 }
+    lat: 43.1090,
+    lng: 5.9380
   }
 ];

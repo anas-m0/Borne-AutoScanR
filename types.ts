@@ -23,7 +23,8 @@ export interface Garage {
   rating: number;
   nextAvailability: string;
   priceEstimate: string;
-  coords: { x: number; y: number };
+  lat: number;
+  lng: number;
 }
 
 export interface DiagnosticIssue {
