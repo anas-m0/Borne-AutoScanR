@@ -199,8 +199,8 @@ const WelcomeScreen: React.FC<Props> = ({ onStart }) => {
           variant="primary"
           onClick={() => hasAcceptedTerms && onStart()}
           className={`w-full py-6 md:py-7 text-xl shadow-xl transition-all ${hasAcceptedTerms
-            ? 'bg-[#0094b7] hover:bg-[#071738] !shadow-[#0094b7]/20 border-transparent text-white'
-            : 'bg-slate-300 text-slate-500 cursor-not-allowed border-none shadow-none hover:bg-[#071738]/40 hover:text-white'
+            ? '!bg-[#0094b7] hover:!bg-[#071738] !shadow-[#0094b7]/20 border-transparent text-white'
+            : '!bg-[#0094b7]/20 text-white cursor-not-allowed border-transparent shadow-none hover:!bg-[#071738]/20 hover:text-white'
             }`}
           icon={<ArrowRight className="w-6 h-6" />}
         >

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '../components/Button';
-import { Search, CheckCircle2, FileText, ScanLine, Keyboard, Zap, Droplets, Calendar, ShieldCheck, CarFront } from 'lucide-react';
+import { Search, CheckCircle2, FileText, ScanLine, Keyboard, Zap, Droplets, Calendar, ShieldCheck, CarFront, Settings2, Activity, Wallet } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Car3DViewer from '../components/Car3DViewer';
 
@@ -12,9 +12,12 @@ interface Props {
 type SearchMethod = 'PLATE' | 'VIN' | 'MANUAL';
 
 interface VehicleDetails {
+  brand: string;
+  model: string;
+  logo: string;
   name: string;
   image: string;
-  specs: { engine: string; power: string; fuel: string; year: string; };
+  specs: { engine: string; power_ch: string; power_cv: string; fuel: string; year: string; gearbox: string; };
 }
 
 const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
@@ -29,19 +32,19 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
   const [manualStep, setManualStep] = useState<'BRAND' | 'MODEL' | 'YEAR'>('BRAND');
 
   const popularBrands = [
-    { id: 'peugeot', name: 'Peugeot', logo: '🦁' },
-    { id: 'renault', name: 'Renault', logo: '♦️' },
-    { id: 'citroen', name: 'Citroën', logo: '⏫' },
-    { id: 'volkswagen', name: 'Volkswagen', logo: 'VW' },
-    { id: 'audi', name: 'Audi', logo: '⭕' },
-    { id: 'bmw', name: 'BMW', logo: '🔵' },
+    { id: 'peugeot', name: 'Peugeot', logo: '/brands/peugeot.png' },
+    { id: 'renault', name: 'Renault', logo: '/brands/renault.svg' },
+    { id: 'volkswagen', name: 'Volkswagen', logo: '/brands/volkswagen.png' },
+    { id: 'mercedes', name: 'Mercedes', logo: '/brands/mercedes.png' },
+    { id: 'audi', name: 'Audi', logo: '/brands/audi.svg' },
+    { id: 'bmw', name: 'BMW', logo: '/brands/bmw.svg' },
   ];
 
   const modelsByBrand: Record<string, string[]> = {
     peugeot: ['208', '2008', '308', '3008', '5008'],
     renault: ['Clio', 'Captur', 'Megane', 'Arkana', 'Austral'],
-    citroen: ['C3', 'C3 Aircross', 'C4', 'C5 Aircross'],
     volkswagen: ['Polo', 'Golf', 'Tiguan', 'T-Roc'],
+    mercedes: ['Classe A', 'Classe C', 'GLA', 'GLC'],
     audi: ['A1', 'A3', 'Q2', 'Q3'],
     bmw: ['Série 1', 'X1', 'Série 3', 'X3'],
   };
@@ -52,22 +55,41 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
     setStatus('SEARCHING');
     setTimeout(() => {
       let name = 'VÉHICULE IDENTIFIÉ';
+      let brand = '';
+      let model = '';
+      let logo = '';
+
       if (method === 'MANUAL') {
         name = `${manualData.brand} ${manualData.model}`.toUpperCase();
+        brand = manualData.brand;
+        model = manualData.model;
+        const brandObj = popularBrands.find(b => b.name.toLowerCase() === brand.toLowerCase());
+        logo = brandObj ? brandObj.logo : '';
       } else if (method === 'PLATE') {
         name = 'RENAULT CLIO V';
+        brand = 'Renault';
+        model = 'Clio V';
+        logo = '/brands/renault.svg';
       } else {
         name = 'PEUGEOT 3008';
+        brand = 'Peugeot';
+        model = '3008';
+        logo = '/brands/peugeot.png';
       }
 
       setVehicleData({
-        name: name,
+        brand,
+        model,
+        logo,
+        name,
         image: 'https://images.unsplash.com/photo-1619105470502-099d25b18408?auto=format&fit=crop&q=80&w=1200',
         specs: {
           engine: method === 'MANUAL' ? 'Standard' : '1.5 BlueHDi',
-          power: '100 ch',
+          power_ch: '100 ch',
+          power_cv: '5 CV',
           fuel: 'Diesel',
-          year: method === 'MANUAL' ? manualData.year : '2020'
+          year: method === 'MANUAL' ? manualData.year : '2020',
+          gearbox: 'Manuelle'
         }
       });
       setStatus('FOUND');
@@ -75,7 +97,10 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
   };
 
   const isFormValid = () => {
-    if (method === 'PLATE') return plate.length >= 5;
+    if (method === 'PLATE') {
+      const plateRegex = /^[A-Z]{2}-\d{3}-[A-Z]{2}$/;
+      return plateRegex.test(plate);
+    }
     if (method === 'VIN') return vin.length === 17;
     if (method === 'MANUAL') return manualData.brand.length > 2 && manualData.model.length > 1;
     return false;
@@ -106,25 +131,58 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
         )}
 
         {status === 'FOUND' && vehicleData && (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-5xl pb-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-5xl pb-4 md:pb-0">
             <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden border border-slate-200 flex flex-col md:flex-row">
               <div className="md:w-1/2 h-56 md:h-auto bg-slate-100 relative">
                 <Car3DViewer />
               </div>
-              <div className="flex-1 p-8 md:p-10">
-                <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full mb-6 border border-emerald-100 shadow-sm">
+              <div className="flex-1 pt-6 px-6 md:pt-8 md:px-8 pb-4 flex flex-col justify-center">
+                <div className="inline-flex items-center gap-2 self-start bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full mb-6 border border-emerald-100 shadow-sm">
                   <CheckCircle2 size={14} className="shrink-0" />
                   <span className="text-[10px] font-black uppercase tracking-widest">Compatible Diagnostic Électronique</span>
                 </div>
-                <span className="text-[10px] font-black text-brand-primary uppercase tracking-widest mb-2 block">Véhicule identifié</span>
-                <h3 className="text-2xl md:text-3xl font-heading font-bold text-brand-dark mb-6 leading-tight">{vehicleData.name}</h3>
-                <div className="grid grid-cols-2 gap-3 mb-8">
+
+                <div className="flex items-center gap-4 mb-6">
+                  {vehicleData.logo && (
+                    <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center border border-slate-100 shrink-0 p-2 shadow-sm">
+                      <img src={vehicleData.logo} alt={vehicleData.brand} className="w-full h-full object-contain" />
+                    </div>
+                  )}
+                  <div>
+                    <span className="text-[10px] font-black text-brand-primary uppercase tracking-widest mb-1 block">Véhicule identifié</span>
+                    <h3 className="text-2xl md:text-3xl font-heading font-bold leading-tight">
+                      {vehicleData.brand && vehicleData.model ? (
+                        <>
+                          <span className="text-[#071738]">{vehicleData.brand.toUpperCase()}</span>{' '}
+                          <span className="text-[#0094b7]">{vehicleData.model.toUpperCase()}</span>
+                        </>
+                      ) : (
+                        <span className="text-brand-dark">{vehicleData.name}</span>
+                      )}
+                    </h3>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
                   <SpecItem icon={<Zap size={16} />} label="Moteur" value={vehicleData.specs.engine} />
+                  <SpecItem icon={<Activity size={16} />} label="Puissance DIN" value={vehicleData.specs.power_ch} />
+                  <SpecItem icon={<Wallet size={16} />} label="Puissance Fisc." value={vehicleData.specs.power_cv} />
                   <SpecItem icon={<Droplets size={16} />} label="Énergie" value={vehicleData.specs.fuel} />
                   <SpecItem icon={<Calendar size={16} />} label="Année" value={vehicleData.specs.year} />
-                  <SpecItem icon={<ShieldCheck size={16} />} label="Status" value="OK" />
+                  <SpecItem icon={<Settings2 size={16} />} label="Boîte" value={vehicleData.specs.gearbox} />
                 </div>
-                <Button variant="primary" onClick={() => onVehicleFound(vehicleData.name)} className="w-full py-5 text-lg">Confirmer et Continuer</Button>
+                <div className="flex flex-col gap-3">
+                  <Button variant="primary" onClick={() => onVehicleFound(vehicleData.name)} className="w-full py-5 text-lg transition-colors hover:!bg-[#071738]">Confirmer et Continuer</Button>
+                  <button
+                    onClick={() => {
+                      setStatus('IDLE');
+                      setPlate('');
+                      setVin('');
+                    }}
+                    className="text-slate-500 hover:text-slate-800 text-sm font-semibold py-2 transition-colors"
+                  >
+                    Ce n'est pas mon véhicule
+                  </button>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -272,10 +330,20 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
                               setManualData({ ...manualData, brand: brand.name, model: '' });
                               setManualStep('MODEL');
                             }}
-                            className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all ${manualData.brand === brand.name ? 'border-brand-primary bg-brand-primary/5 shadow-md' : 'border-slate-100 hover:border-brand-primary/30 hover:bg-slate-50'}`}
+                            className={`p-4 rounded-xl border-2 flex flex-col items-center justify-center gap-2 transition-all group ${manualData.brand === brand.name
+                              ? 'border-brand-primary bg-brand-primary/5 shadow-md'
+                              : 'border-slate-100 hover:border-brand-primary/30 hover:bg-slate-50'
+                              }`}
                           >
-                            <span className="text-3xl grayscale opacity-70">{brand.logo}</span>
-                            <span className="font-bold text-sm text-slate-700">{brand.name}</span>
+                            <img
+                              src={brand.logo}
+                              alt={`Logo ${brand.name}`}
+                              className="w-12 h-12 object-contain transition-transform duration-300 group-hover:scale-110"
+                            />
+                            <span className={`font-bold text-sm transition-colors ${manualData.brand === brand.name ? 'text-brand-primary' : 'text-slate-700 group-hover:text-brand-primary'
+                              }`}>
+                              {brand.name}
+                            </span>
                           </button>
                         ))}
                       </div>
