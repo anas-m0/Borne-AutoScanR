@@ -21,6 +21,7 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
       title: "Récupération du câble",
       desc: <>Récupérez le <strong>câble</strong> dans la <strong>trappe</strong> de la <strong>borne</strong>.</>,
       icon: <PackageOpen className="w-24 h-24 md:w-32 md:h-32 text-brand-primary" />,
+      video: '/videos/instructions/recuperation-cable.mp4',
       details: [
         "La trappe s'est déverrouillée.",
         "Munissez-vous du câble avec l'embout OBD.",
@@ -42,6 +43,7 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
       title: "Mise en contact",
       desc: "Mettez le contact de votre véhicule sans démarrer le moteur.",
       icon: <Key className="w-24 h-24 md:w-32 md:h-32 text-emerald-500" />,
+      video: '/videos/instructions/mise-en-contact.mp4',
       details: [
         "Insérez et tournez la clé ou appuyez sur 'Start'.",
         "Le tableau de bord doit s'allumer.",
@@ -116,33 +118,32 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
               <div className="absolute inset-0 bg-brand-primary/5 opacity-50 animate-pulse" />
 
               {/* Dynamic Video or Fallback Icon */}
-              {step === 1 ? (
+              {steps[step].video ? (
                 <>
-                  {/* Attempt to load the car specific video */}
+                  {/* Attempt to load the step specific video */}
                   <video
-                    src={dynamicObdVideo}
+                    src={steps[step].video}
                     autoPlay
                     loop
                     muted
                     playsInline
-                    className="absolute inset-0 w-full h-full object-cover z-10"
-                    style={{ backgroundColor: '#0f172a' }} // bg-slate-900 so letterboxing looks ok
+                    className={`absolute inset-0 w-full h-full z-10 ${step === 0 ? 'object-contain' : 'object-cover'}`}
+                    style={{ backgroundColor: '#ffffff' }} // White background for letterboxing
                     onError={(e) => {
                       // If video fails to load, hide the video element and show the fallback div
                       e.currentTarget.style.display = 'none';
-                      const fallback = document.getElementById('obd-fallback');
+                      const fallback = document.getElementById('media-fallback');
                       if (fallback) fallback.style.display = 'flex';
                     }}
                   />
 
                   {/* Fallback block (hidden by default unless video fails) */}
-                  <div id="obd-fallback" className="absolute inset-0 hidden flex-col items-center justify-center bg-slate-50 z-20 p-4 text-center">
-                    <MapPin className="text-slate-400 w-16 h-16 mb-2 md:mb-4" />
-                    <p className="text-sm md:text-base text-slate-500 font-bold mb-1">Visuel de l'emplacement introuvable</p>
-                    <p className="text-xs md:text-sm text-slate-400 block mb-6">{vehicleName}</p>
-                    <div className="opacity-30 scale-100 md:scale-125">
+                  <div id="media-fallback" className="absolute inset-0 hidden flex-col items-center justify-center bg-slate-50 z-20 p-4 text-center">
+                    <div className="opacity-30 scale-100 md:scale-125 mb-4">
                       {steps[step].icon}
                     </div>
+                    <p className="text-sm md:text-base text-slate-500 font-bold mb-1">Visuel introuvable</p>
+                    {step === 1 && <p className="text-xs md:text-sm text-slate-400 block mb-2">{vehicleName}</p>}
                   </div>
                 </>
               ) : (
