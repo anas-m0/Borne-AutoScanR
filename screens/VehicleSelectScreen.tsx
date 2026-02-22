@@ -247,21 +247,30 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
             )}
 
             {method === 'VIN' && (
-              <div className="w-full max-w-2xl mx-auto mb-12">
-                <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.08)] mb-8">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 block text-center">Numéro de série (VIN)</label>
-                  <div className="relative">
+              <div className="w-full max-w-2xl mx-auto mb-10">
+                <div className="bg-white p-3 md:p-4 rounded-xl border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.06)] mb-6 relative overflow-hidden group">
+                  {/* Decorative background element */}
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-brand-primary/5 rounded-bl-full -z-10 transition-transform group-hover:scale-110"></div>
+
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5">
+                      <FileText size={12} className="text-brand-primary" />
+                      Numéro de série
+                    </label>
+                    <div className={`text-[9px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-full border transition-colors ${vin.length === 17 ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-slate-50 text-slate-400 border-slate-200'}`}>
+                      {vin.length}/17
+                    </div>
+                  </div>
+
+                  <div className="relative bg-slate-50/50 rounded-lg border border-slate-200 p-1 md:p-1.5 transition-colors focus-within:border-brand-primary/40 focus-within:bg-white">
                     <input
                       type="text"
                       maxLength={17}
                       value={vin}
                       onChange={(e) => setVin(e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''))}
-                      placeholder="VF3..."
-                      className="w-full text-center py-4 text-3xl md:text-4xl font-mono font-bold text-slate-800 outline-none tracking-[0.3em] placeholder-slate-200 border-b-2 border-slate-100 focus:border-brand-primary transition-all"
+                      placeholder="VF3.............."
+                      className="w-full text-center py-1 md:py-1.5 text-lg md:text-xl font-mono font-bold text-slate-800 bg-transparent outline-none tracking-[0.1em] md:tracking-[0.15em] placeholder-slate-300"
                     />
-                    <div className={`absolute right-0 top-1/2 -translate-y-1/2 text-xs font-bold transition-colors ${vin.length === 17 ? 'text-emerald-500' : 'text-slate-300'}`}>
-                      {vin.length}/17
-                    </div>
                   </div>
                 </div>
 
@@ -271,14 +280,12 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Windshield Illustration */}
                     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.04)] flex flex-col items-center text-center group hover:border-brand-primary/20 transition-colors">
-                      <div className="w-32 h-20 bg-slate-100 rounded-t-xl rounded-b-md border-4 border-slate-300 relative mb-4 overflow-hidden">
-                        <div className="absolute inset-0 bg-sky-50/50"></div>
-                        {/* Wiper */}
-                        <div className="absolute bottom-0 right-8 w-16 h-1 bg-slate-400 -rotate-12 origin-bottom-right"></div>
-                        {/* VIN Highlight */}
-                        <div className="absolute bottom-1 right-2 w-10 h-2 bg-brand-primary/20 border border-brand-primary rounded-sm flex items-center justify-center">
-                          <div className="w-full h-0.5 bg-brand-primary/50 mx-1"></div>
-                        </div>
+                      <div className="w-full h-32 mb-4 flex items-center justify-center overflow-hidden rounded-xl">
+                        <img
+                          src="/images/pare-brise.png"
+                          alt="VIN sur pare-brise"
+                          className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                        />
                       </div>
                       <p className="text-sm font-bold text-slate-900 mb-1">Sur le pare-brise</p>
                       <p className="text-xs text-slate-400">En bas à droite, visible de l'extérieur.</p>
@@ -286,14 +293,12 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
 
                     {/* Carte Grise Illustration */}
                     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_4px_20px_rgb(0,0,0,0.04)] flex flex-col items-center text-center group hover:border-brand-primary/20 transition-colors">
-                      <div className="w-24 h-20 bg-orange-50 rounded-md border border-orange-200 relative mb-4 p-2 flex flex-col gap-1.5 shadow-sm">
-                        <div className="w-full h-2 bg-orange-200/50 rounded-sm"></div>
-                        <div className="w-2/3 h-2 bg-orange-200/50 rounded-sm"></div>
-                        <div className="w-full h-6 bg-white border border-brand-primary/30 rounded-sm mt-1 flex items-center px-1 gap-1">
-                          <span className="text-[6px] font-bold text-brand-primary">E.</span>
-                          <div className="flex-1 h-1.5 bg-brand-primary/10 rounded-sm"></div>
-                        </div>
-                        <div className="w-1/2 h-2 bg-orange-200/50 rounded-sm"></div>
+                      <div className="w-full h-32 mb-4 flex items-center justify-center overflow-hidden rounded-xl">
+                        <img
+                          src="/images/carte-grise.png"
+                          alt="VIN sur carte grise"
+                          className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                        />
                       </div>
                       <p className="text-sm font-bold text-slate-900 mb-1">Sur la carte grise</p>
                       <p className="text-xs text-slate-400">Repère E (Numéro d'identification).</p>

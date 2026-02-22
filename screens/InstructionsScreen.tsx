@@ -45,9 +45,9 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
       icon: <Key className="w-24 h-24 md:w-32 md:h-32 text-emerald-500" />,
       video: '/videos/instructions/mise-en-contact.mp4',
       details: [
-        "Insérez et tournez la clé ou appuyez sur 'Start'.",
+        "Insérez et tournez la clé ou appuyez sur Start pour mettre le contact.",
         "Le tableau de bord doit s'allumer.",
-        "Lancez le diagnostic."
+        "Vous pouvez maintenant démarrer le diagnostic."
       ]
     }
   ];
