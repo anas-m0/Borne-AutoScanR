@@ -19,6 +19,7 @@ export enum AppStep {
 export interface Garage {
   id: string;
   name: string;
+  logo?: string;
   distance: string;
   rating: number;
   nextAvailability: string;
@@ -31,9 +32,14 @@ export interface DiagnosticIssue {
   code: string;
   title: string;
   description: string;
+  simplifiedExplanation: string;  // plain-language explanation for non-mechanics
+  howItWorks: string;             // how the system/part normally works
+  partsAffected: string[];        // list of parts involved
   severity: 'low' | 'medium' | 'high';
+  urgency: 'immediate' | 'soon' | 'monitor'; // action timeline
+  estimatedCost: string;          // e.g. "80€ – 200€"
   recommendation: string;
-  system: 'engine' | 'transmission' | 'brakes' | 'electronics';
+  system: 'engine' | 'transmission' | 'brakes' | 'exhaust' | 'electrical' | 'suspension';
 }
 
 export interface PricingPlan {

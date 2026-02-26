@@ -34,7 +34,7 @@ const PlanSelectionScreen: React.FC<Props> = ({ onPlanSelected }) => {
   return (
     <div className="max-w-4xl mx-auto min-h-full flex flex-col items-center px-10 py-16">
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-        <h2 className="text-4xl font-heading font-bold text-slate-900 mb-4">Rapport disponible</h2>
+        <h2 className="text-4xl font-heading font-bold text-slate-900 mb-4">Résultats disponibles</h2>
         <p className="text-slate-500 text-lg">Nous avons terminé l'analyse. Déverrouillez votre rapport complet pour 19,90€.</p>
       </motion.div>
 
@@ -69,7 +69,7 @@ const PlanSelectionScreen: React.FC<Props> = ({ onPlanSelected }) => {
         </div>
 
         <Button variant="primary" onClick={() => setShowModal(true)} className="w-full py-6 text-2xl mb-6" icon={<Lock />}>
-          Accéder à mon rapport
+          Accéder aux résultats
         </Button>
 
         <div className="flex items-center justify-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-100">
@@ -120,8 +120,8 @@ const PlanSelectionScreen: React.FC<Props> = ({ onPlanSelected }) => {
                 <button
                   onClick={() => setReceiptChoice('print')}
                   className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${receiptChoice === 'print'
-                      ? 'border-brand-primary bg-brand-primary/5 text-brand-primary'
-                      : 'border-slate-200 text-slate-400 hover:border-slate-300'
+                    ? 'border-brand-primary bg-brand-primary/5 text-brand-primary'
+                    : 'border-slate-200 text-slate-400 hover:border-slate-300'
                     }`}
                 >
                   <Printer size={24} />
@@ -130,8 +130,8 @@ const PlanSelectionScreen: React.FC<Props> = ({ onPlanSelected }) => {
                 <button
                   onClick={() => setReceiptChoice('email')}
                   className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${receiptChoice === 'email'
-                      ? 'border-brand-primary bg-brand-primary/5 text-brand-primary'
-                      : 'border-slate-200 text-slate-400 hover:border-slate-300'
+                    ? 'border-brand-primary bg-brand-primary/5 text-brand-primary'
+                    : 'border-slate-200 text-slate-400 hover:border-slate-300'
                     }`}
                 >
                   <Mail size={24} />
