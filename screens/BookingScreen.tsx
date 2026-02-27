@@ -222,7 +222,7 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
         <div className="mt-10 flex flex-col items-center gap-4 shrink-0">
           <Button
             variant="primary"
-            className="w-full max-w-md py-5 text-lg"
+            className="w-full max-w-md py-5 text-lg !font-body uppercase"
             disabled={!selectedDate || !selectedTime}
             onClick={handleConfirm}
             icon={<CheckCircle size={20} />}

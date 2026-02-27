@@ -19,14 +19,13 @@ const CollectContactScreen: React.FC<Props> = ({ onComplete }) => {
     setTimeout(() => {
       setLoading(false);
       setIsSent(true);
-      setTimeout(() => onComplete(), 2000);
     }, 1500);
   };
 
   return (
     <div className="max-w-4xl mx-auto min-h-full flex flex-col items-center justify-center px-10 py-16">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-        <h2 className="text-4xl font-heading font-bold text-slate-900 mb-4">Emportez votre rapport</h2>
+        <h2 className="text-4xl md:text-5xl font-body font-bold text-slate-900 mb-4 tracking-tight">Emportez votre rapport</h2>
         <p className="text-slate-500 text-lg">Comment souhaitez-vous recevoir votre bilan complet ?</p>
       </motion.div>
 
@@ -45,7 +44,7 @@ const CollectContactScreen: React.FC<Props> = ({ onComplete }) => {
               onChange={(e) => setValue(e.target.value)}
               className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-8 py-6 text-xl text-slate-900 focus:outline-none focus:border-brand-primary transition-all text-center placeholder-slate-300"
             />
-            <Button variant="primary" onClick={handleSend} isLoading={loading} disabled={value.length < 5} className="w-full py-6 text-xl" icon={<Send />}>
+            <Button variant="primary" onClick={handleSend} isLoading={loading} disabled={value.length < 5} className="w-full py-6 text-xl !font-body uppercase" icon={<Send />}>
               Envoyer maintenant
             </Button>
           </div>
@@ -54,8 +53,11 @@ const CollectContactScreen: React.FC<Props> = ({ onComplete }) => {
             <div className="w-24 h-24 bg-teal-50 rounded-full flex items-center justify-center mb-6 border border-teal-100">
               <CheckCircle2 className="text-teal-500 w-12 h-12" />
             </div>
-            <h3 className="text-3xl font-heading font-bold text-slate-900 mb-2">C'est envoyé !</h3>
-            <p className="text-slate-500">Votre rapport arrive dans votre messagerie.</p>
+            <h3 className="text-3xl font-body font-bold text-slate-900 mb-2">C'est envoyé !</h3>
+            <p className="text-slate-500 mb-10">Votre rapport arrive dans votre messagerie.</p>
+            <Button variant="primary" onClick={onComplete} className="w-full py-6 text-xl !font-body uppercase">
+              Continuer
+            </Button>
           </motion.div>
         )}
       </div>

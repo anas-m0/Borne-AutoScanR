@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AppStep, Garage } from './types';
 import { Logo } from './components/Logo';
-import { ChevronLeft, HelpCircle, X, HeartHandshake, CheckCircle, Lock, Printer, Mail } from 'lucide-react';
+import { ChevronLeft, HelpCircle, X, HeartHandshake, CheckCircle, ShieldCheck, Phone, Info, Mail } from 'lucide-react';
 import { mockGarages } from './services/mockData';
 
 // Screens
@@ -19,6 +19,7 @@ import CollectContactScreen from './screens/CollectContactScreen';
 import MapScreen from './screens/MapScreen';
 import BookingScreen from './screens/BookingScreen';
 import SendReportScreen from './screens/SendReportScreen';
+import GoodbyeScreen from './screens/GoodbyeScreen';
 
 // Components
 import { Button } from './components/Button';
@@ -192,7 +193,7 @@ const FinalSuccessScreen = ({ onRestart, action }: { onRestart: () => void; acti
             <Button
               variant="primary"
               onClick={onRestart}
-              className="w-full py-5 text-xl font-bold shadow-lg shadow-brand-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all"
+              className="w-full py-5 text-2xl !font-body uppercase shadow-lg shadow-brand-primary/25 hover:shadow-xl hover:-translate-y-0.5 transition-all"
             >
               Quitter la session
             </Button>
@@ -205,129 +206,79 @@ const FinalSuccessScreen = ({ onRestart, action }: { onRestart: () => void; acti
 };
 
 
-const PaymentModal = ({ price, onClose, onConfirm }: { price: string, onClose: () => void, onConfirm: () => void }) => {
-  const [receiptChoice, setReceiptChoice] = useState<'print' | 'email' | null>(null);
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleConfirm = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      onConfirm();
-    }, 1500);
-  };
-
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-md">
-      <motion.div
-        className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 relative border border-white"
-        initial={{ scale: 0.92, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.92, opacity: 0, y: 20 }}
-        transition={{ type: 'spring', damping: 20, stiffness: 260 }}
-      >
-        <button
-          onClick={onClose}
-          className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 transition-colors"
-        >
-          <X size={22} />
-        </button>
-
-        <img src="/logo.png" alt="AutoScanR" className="h-8 object-contain mb-6" />
-        <h3 className="text-2xl font-heading font-bold text-slate-900 mb-1">Confirmer le paiement</h3>
-        <p className="text-slate-500 text-sm mb-8">
-          Montant débité : <strong className="text-brand-primary">{price}€</strong> sur votre empreinte bancaire.
-        </p>
-
-        <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Recevoir mon reçu par</p>
-        <div className="grid grid-cols-2 gap-3 mb-8">
-          <button
-            onClick={() => setReceiptChoice('print')}
-            className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${receiptChoice === 'print'
-              ? 'border-brand-primary bg-brand-primary/5 text-brand-primary'
-              : 'border-slate-200 text-slate-400 hover:border-slate-300'
-              }`}
-          >
-            <Printer size={24} />
-            <span className="text-xs font-black uppercase tracking-wider">Impression</span>
-          </button>
-          <button
-            onClick={() => setReceiptChoice('email')}
-            className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${receiptChoice === 'email'
-              ? 'border-brand-primary bg-brand-primary/5 text-brand-primary'
-              : 'border-slate-200 text-slate-400 hover:border-slate-300'
-              }`}
-          >
-            <Mail size={24} />
-            <span className="text-xs font-black uppercase tracking-wider">E-mail</span>
-          </button>
-        </div>
-
-        <AnimatePresence>
-          {receiptChoice === 'email' && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="overflow-hidden mb-6"
-            >
-              <input
-                type="email"
-                placeholder="votre@email.com"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-brand-primary transition-colors font-body"
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <Button
-          variant="primary"
-          onClick={handleConfirm}
-          isLoading={loading}
-          disabled={!receiptChoice || (receiptChoice === 'email' && !email)}
-          className="w-full py-4 text-lg !font-body uppercase"
-          icon={<Lock />}
-        >
-          Confirmer et payer {price}€
-        </Button>
-      </motion.div>
-    </div>
-  );
-};
-
 const HelpModal = ({ onClose }: { onClose: () => void }) => (
-  <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-6">
+  <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 sm:p-6">
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      className="bg-white w-full max-w-lg rounded-3xl p-10 relative shadow-2xl border border-white"
+      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95, y: 20 }}
+      transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+      className="bg-white w-full max-w-md md:max-w-lg rounded-[2rem] p-8 md:p-10 relative shadow-2xl overflow-hidden"
     >
-      <button onClick={onClose} className="absolute top-6 right-6 text-slate-400 hover:text-slate-600 transition-colors">
-        <X size={28} />
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-40 h-40 bg-brand-primary/5 rounded-full blur-3xl -mr-10 -mt-10" />
+
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-6 w-10 h-10 bg-slate-50 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors z-10"
+      >
+        <X size={20} strokeWidth={2.5} />
       </button>
-      <h3 className="text-2xl font-heading font-bold text-brand-primary mb-8 flex items-center gap-3">
-        <HelpCircle size={32} /> Centre d'aide
-      </h3>
-      <div className="space-y-6">
-        <div>
-          <h4 className="font-bold text-brand-dark mb-1">Connexion OBD</h4>
-          <p className="text-slate-500 text-sm leading-relaxed">Mettez simplement le contact (voyants allumés) sans démarrer le moteur. Le câble doit être bien enfoncé.</p>
+
+      <div className="flex items-center gap-4 mb-8 relative z-10">
+        <div className="w-12 h-12 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary shrink-0 shadow-sm">
+          <HelpCircle size={24} strokeWidth={2.5} />
         </div>
-        <div>
-          <h4 className="font-bold text-brand-dark mb-1">Paiement & Empreinte</h4>
-          <p className="text-slate-500 text-sm leading-relaxed">Rien n'est débité tant que le scan n'a pas réussi. Vous recevez un reçu instantanément.</p>
+        <h3 className="text-2xl font-black font-body text-brand-dark tracking-tight">Besoin d'aide ?</h3>
+      </div>
+
+      <div className="space-y-6 relative z-10">
+        <div className="flex gap-4 items-start group">
+          <div className="mt-0.5 w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-brand-primary group-hover:border-brand-primary/30 transition-colors shrink-0">
+            <Info size={16} strokeWidth={2.5} />
+          </div>
+          <div>
+            <h4 className="font-bold text-brand-dark mb-1 text-base">Connexion de la borne</h4>
+            <p className="text-slate-500 text-sm leading-relaxed">Mettez simplement le contact (voyants allumés) sans démarrer le moteur. Assurez-vous que le câble est bien enfoncé.</p>
+          </div>
         </div>
-        <div>
-          <h4 className="font-bold text-brand-dark mb-1">Support Client</h4>
-          <p className="text-slate-500 text-sm leading-relaxed font-bold font-heading">Appelez le 0800 123 456 pour une assistance immédiate.</p>
+
+        <div className="flex gap-4 items-start group">
+          <div className="mt-0.5 w-8 h-8 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-brand-accent group-hover:border-brand-accent/30 transition-colors shrink-0">
+            <ShieldCheck size={16} strokeWidth={2.5} />
+          </div>
+          <div>
+            <h4 className="font-bold text-brand-dark mb-1 text-base">Paiement 100% sécurisé</h4>
+            <p className="text-slate-500 text-sm leading-relaxed">Rien n'est débité tant que le diagnostic n'est pas terminé. Vous recevez un reçu instantanément.</p>
+          </div>
+        </div>
+
+        <div className="bg-brand-primary/5 border border-brand-primary/10 rounded-2xl p-5 mt-8 flex flex-col items-center text-center">
+          <div className="flex gap-3 mb-3">
+            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-sm">
+              <Phone size={18} strokeWidth={2.5} className="animate-pulse" />
+            </div>
+            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-brand-primary shadow-sm">
+              <Mail size={18} strokeWidth={2.5} />
+            </div>
+          </div>
+          <h4 className="font-black text-brand-dark text-lg mb-1">Assistance immédiate</h4>
+          <p className="text-slate-500 text-sm mb-4">Notre équipe technique est à votre écoute.</p>
+          <div className="space-y-1">
+            <a href="tel:0800123456" className="block text-xl md:text-2xl font-black text-brand-primary tracking-wider hover:text-brand-dark transition-colors">
+              0800 123 456
+            </a>
+            <a href="mailto:support@autoscanr.fr" className="block text-sm font-bold text-slate-400 hover:text-brand-primary transition-colors">
+              support@autoscanr.fr
+            </a>
+          </div>
         </div>
       </div>
-      <div className="mt-10">
-        <Button variant="primary" className="w-full py-5" onClick={onClose}>J'ai compris</Button>
+
+      <div className="mt-8 relative z-10">
+        <Button variant="primary" className="w-full py-4 text-lg !font-body uppercase shadow-md shadow-brand-primary/20" onClick={onClose}>
+          Fermer
+        </Button>
       </div>
     </motion.div>
   </div>
@@ -339,7 +290,6 @@ export default function App() {
   const [issuesCount, setIssuesCount] = useState<number>(0);
   const [selectedGarageId, setSelectedGarageId] = useState<string | null>(null);
   const [showHelp, setShowHelp] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [finalAction, setFinalAction] = useState<'BOOKED' | 'REPORT_SENT' | 'NONE'>('NONE');
 
   const stepsList = Object.values(AppStep);
@@ -374,7 +324,7 @@ export default function App() {
       case AppStep.INSTRUCTIONS: return <InstructionsScreen vehicleName={vehicleInfo} onNext={() => setCurrentStep(AppStep.SCANNING)} />;
       case AppStep.SCANNING: return <ScanningScreen onComplete={(count) => { setIssuesCount(count); setCurrentStep(AppStep.UNPLUG); }} />;
       case AppStep.UNPLUG: return <UnplugScreen onComplete={() => setCurrentStep(AppStep.PLAN_SELECTION)} />;
-      case AppStep.PLAN_SELECTION: return <PlanSelectionScreen issuesCount={issuesCount} onPlanSelected={() => setShowPaymentModal(true)} />;
+      case AppStep.PLAN_SELECTION: return <PlanSelectionScreen issuesCount={issuesCount} onPlanSelected={() => setCurrentStep(AppStep.RESULTS)} />;
       case AppStep.RESULTS: return <ResultsScreen vehicleName={vehicleInfo} onReceiveReport={() => setCurrentStep(AppStep.COLLECT_CONTACT)} />;
       case AppStep.COLLECT_CONTACT: return <CollectContactScreen onComplete={() => setCurrentStep(AppStep.MAP)} />;
       case AppStep.MAP: return <MapScreen onBook={(garageId) => { setSelectedGarageId(garageId); setCurrentStep(AppStep.BOOKING); }} onSendReport={() => setCurrentStep(AppStep.SEND_REPORT)} />;
@@ -383,12 +333,13 @@ export default function App() {
         if (!garage) return null;
         return <BookingScreen garage={garage} onComplete={() => { setFinalAction('BOOKED'); setCurrentStep(AppStep.FINAL_SUCCESS); }} onBack={goBack} />;
       case AppStep.SEND_REPORT: return <SendReportScreen onComplete={(actionType) => { setFinalAction(actionType || 'NONE'); setCurrentStep(AppStep.FINAL_SUCCESS); }} onBack={goBack} />;
-      case AppStep.FINAL_SUCCESS: return <FinalSuccessScreen action={finalAction} onRestart={() => setCurrentStep(AppStep.WELCOME)} />;
+      case AppStep.FINAL_SUCCESS: return <FinalSuccessScreen action={finalAction} onRestart={() => setCurrentStep(AppStep.GOODBYE)} />;
+      case AppStep.GOODBYE: return <GoodbyeScreen onComplete={() => setCurrentStep(AppStep.WELCOME)} />;
       default: return null;
     }
   };
 
-  const showHeader = currentStep !== AppStep.WELCOME && currentStep !== AppStep.FINAL_SUCCESS;
+  const showHeader = currentStep !== AppStep.WELCOME && currentStep !== AppStep.FINAL_SUCCESS && currentStep !== AppStep.GOODBYE;
   const showBackBtn = showHeader;
 
   return (
@@ -458,16 +409,6 @@ export default function App() {
 
       <AnimatePresence>
         {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
-        {showPaymentModal && (
-          <PaymentModal
-            price="19,90"
-            onClose={() => setShowPaymentModal(false)}
-            onConfirm={() => {
-              setShowPaymentModal(false);
-              setCurrentStep(AppStep.RESULTS);
-            }}
-          />
-        )}
       </AnimatePresence>
     </div>
   );

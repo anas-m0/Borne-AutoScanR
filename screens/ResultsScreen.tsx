@@ -82,9 +82,28 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
                 {/* Vehicle */}
                 <div className="bg-gradient-to-br from-white to-slate-50/50 rounded-[2rem] p-6 flex flex-col justify-center shadow-xl shadow-slate-200/40 border border-white/60 relative overflow-hidden group">
                     <div className="absolute bottom-0 right-0 w-24 h-24 bg-brand-accent/5 rounded-full blur-xl translate-y-1/2 translate-x-1/2 group-hover:bg-brand-accent/10 transition-colors duration-500" />
-                    <div className="relative z-10">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 flex items-center gap-1.5"><HeartPulse size={12} className="text-brand-primary" /> Véhicule analysé</p>
-                        <h3 className="text-2xl font-black text-brand-dark tracking-tight truncate">{vehicleName}</h3>
+                    <div className="relative z-10 flex items-center gap-4">
+                        <div>
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Véhicule analysé</p>
+                            <h3 className="text-2xl font-black text-brand-dark tracking-tight truncate max-w-[150px] md:max-w-[200px]">{vehicleName}</h3>
+                        </div>
+                        {(() => {
+                            const nameLower = vehicleName.toLowerCase();
+                            let logoSrc = null;
+                            if (nameLower.includes('peugeot')) logoSrc = '/brands/peugeot.png';
+                            else if (nameLower.includes('renault')) logoSrc = '/brands/renault.svg';
+                            else if (nameLower.includes('audi')) logoSrc = '/brands/audi.svg';
+                            else if (nameLower.includes('bmw')) logoSrc = '/brands/bmw.svg';
+                            else if (nameLower.includes('citroen') || nameLower.includes('citroën')) logoSrc = '/brands/citroen.svg';
+                            else if (nameLower.includes('mercedes')) logoSrc = '/brands/mercedes.png';
+                            else if (nameLower.includes('volkswagen') || nameLower.includes('vw')) logoSrc = '/brands/volkswagen.png';
+
+                            return logoSrc ? (
+                                <div className="w-12 h-12 ml-auto shrink-0 flex items-center justify-center p-1 bg-white/50 backdrop-blur-sm rounded-xl border border-white/60 shadow-sm">
+                                    <img src={logoSrc} alt={vehicleName} className="w-full h-full object-contain" />
+                                </div>
+                            ) : null;
+                        })()}
                     </div>
                 </div>
 
@@ -312,7 +331,7 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
                         <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1.5 rounded-xl shadow-sm"><span className="text-sm">🎫</span> Articles spécialisés</span>
                     </div>
                 </div>
-                <Button variant="primary" onClick={onReceiveReport} className="w-full xl:w-auto px-10 py-5 text-lg shadow-xl shadow-brand-primary/20 hover:shadow-2xl hover:shadow-brand-primary/30 shrink-0" icon={<FileText size={22} className="opacity-80" />}>
+                <Button variant="primary" onClick={onReceiveReport} className="w-full xl:w-auto px-10 py-5 text-lg shadow-xl shadow-brand-primary/20 hover:shadow-2xl hover:shadow-brand-primary/30 shrink-0 !font-body uppercase" icon={<FileText size={22} className="opacity-80" />}>
                     Recevoir mon rapport complet
                 </Button>
             </div>

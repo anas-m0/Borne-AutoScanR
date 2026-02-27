@@ -232,7 +232,7 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
       <div className="mt-10 flex flex-col items-center gap-4 shrink-0">
         <Button
           variant="primary"
-          className="w-full max-w-md py-5 text-lg"
+          className="w-full max-w-md py-5 text-lg !font-body uppercase"
           disabled={selectedIds.length === 0}
           onClick={handleSend}
           icon={<Send size={20} />}

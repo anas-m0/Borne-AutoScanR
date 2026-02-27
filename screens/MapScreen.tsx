@@ -118,27 +118,12 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
 
   return (
     <div className="flex-1 max-w-7xl mx-auto w-full flex flex-col px-6 pb-6 gap-6">
-      {/* ── Screen Header ── */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 shrink-0">
-        <div className="flex flex-col gap-2">
-          <h2 className="text-4xl font-black text-brand-dark tracking-tight">Où réparer votre véhicule ?</h2>
-          <p className="text-base text-slate-500 max-w-2xl leading-relaxed">
-            Nous avons sélectionné des garages partenaires fiables près de chez vous.
-            Prenez rendez-vous directement ou demandez des devis personnalisés pour vos anomalies.
-          </p>
-        </div>
-
-        {/* Repair Visual Decor - Right Side */}
-        <div className="hidden lg:flex items-center gap-5 bg-white border border-slate-100 px-6 py-4 rounded-3xl shadow-sm relative overflow-hidden mr-4 xl:mr-8">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/5 rounded-full blur-2xl -mr-10 -mt-10" />
-          <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center shadow-inner rotate-3">
-            <Wrench className="text-brand-primary" size={28} strokeWidth={2.5} />
-          </div>
-          <div className="flex flex-col relative z-10">
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">Réseau partenaire</span>
-            <span className="text-lg font-black text-brand-dark leading-tight">Mise en relation<br />& Réparation</span>
-          </div>
-        </div>
+      <div className="flex flex-col items-center text-center gap-3 shrink-0 mb-2">
+        <h2 className="text-4xl font-black text-brand-dark tracking-tight">Où réparer votre véhicule ?</h2>
+        <p className="text-base text-slate-500 max-w-4xl leading-relaxed">
+          Nous avons sélectionné des garages partenaires fiables près de chez vous.
+          Prenez rendez-vous directement ou demandez des devis personnalisés pour vos anomalies.
+        </p>
       </div>
 
       <div className="flex-1 flex flex-col md:flex-row glass-panel rounded-[2rem] overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/40">
@@ -199,7 +184,7 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
                       animate={{ height: 'auto', opacity: 1 }}
                       className="mt-3 overflow-hidden"
                     >
-                      <Button variant="primary" className="w-full text-sm py-2.5 shadow-md shadow-brand-primary/20 hover:shadow-lg focus:outline-none" onClick={() => onBook(garage.id)}>
+                      <Button variant="primary" className="w-full text-sm py-2.5 shadow-md shadow-brand-primary/20 hover:shadow-lg focus:outline-none !font-body uppercase" onClick={() => onBook(garage.id)}>
                         Prendre rendez-vous
                       </Button>
                     </motion.div>
@@ -213,7 +198,7 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
           <div className="absolute bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 p-5 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] z-30">
             <Button
               variant="secondary"
-              className="w-full text-base font-black tracking-tight py-4 text-brand-primary bg-brand-primary/10 hover:bg-brand-primary/20 transition-colors shadow-none border-none font-['Poppins']"
+              className="w-full text-base font-black tracking-tight py-4 text-[#071738] bg-slate-100 hover:bg-slate-200 transition-colors shadow-none border-none font-['Poppins']"
               onClick={onSendReport}
             >
               Je ne souhaite pas prendre RDV maintenant

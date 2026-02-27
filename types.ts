@@ -14,6 +14,7 @@ export enum AppStep {
   BOOKING = 'BOOKING',
   SEND_REPORT = 'SEND_REPORT',
   FINAL_SUCCESS = 'FINAL_SUCCESS',
+  GOODBYE = 'GOODBYE',
 }
 
 export interface Garage {
