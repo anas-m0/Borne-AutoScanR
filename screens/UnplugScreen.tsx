@@ -12,32 +12,32 @@ const UnplugScreen: React.FC<Props> = ({ onComplete }) => {
   const [isHatchClosed, setIsHatchClosed] = useState(false);
 
   return (
-    <div className="max-w-5xl mx-auto min-h-full flex flex-col items-center justify-center px-10 py-16 text-center">
-      <div className="mb-12">
-        <h2 className="text-4xl md:text-5xl font-heading font-bold text-brand-primary mb-4">Récupération</h2>
-        <p className="text-slate-500 text-xl font-light">Le scan est terminé, merci de libérer le matériel.</p>
+    <div className="max-w-5xl mx-auto min-h-[100dvh] md:min-h-full h-full flex flex-col items-center justify-between px-10 py-10 text-center overflow-hidden">
+      <div className="mb-10 mt-6 shrink-0">
+        <h2 className="text-4xl md:text-5xl !font-body font-bold text-[#071738] mb-2">Récupération du matériel.</h2>
+        <p className="text-slate-500 text-lg md:text-xl font-light">Le scan est terminé, merci de libérer le matériel.</p>
       </div>
 
       {/* Steps */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl mb-12">
-        <div className="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col items-center">
-          <div className="w-20 h-20 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-6 shadow-inner">
-            <PowerOff size={40} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-4xl mb-10 flex-1">
+        <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col items-center justify-center h-full">
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mb-4 md:mb-8 shadow-inner shrink-0">
+            <PowerOff className="w-8 h-8 md:w-10 md:h-10" />
           </div>
-          <h3 className="text-2xl font-heading font-bold text-brand-primary mb-4">1. Débranchez</h3>
-          <p className="text-slate-500 text-sm">Coupez le contact du véhicule et débranchez le câble.</p>
+          <h3 className="text-2xl !font-body font-bold text-brand-primary mb-4">1. Débranchez</h3>
+          <p className="text-slate-500 text-sm"><strong>Coupez le contact</strong> du véhicule et <strong>débranchez le câble</strong>.</p>
         </div>
-        <div className="bg-white p-10 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col items-center">
-          <div className="w-20 h-20 rounded-2xl bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-6 shadow-inner">
-            <RotateCcw size={40} />
+        <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col items-center justify-center h-full">
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-brand-accent/10 flex items-center justify-center text-brand-accent mb-4 md:mb-8 shadow-inner shrink-0">
+            <RotateCcw className="w-8 h-8 md:w-10 md:h-10" />
           </div>
-          <h3 className="text-2xl font-heading font-bold text-brand-primary mb-4">2. Rangez</h3>
-          <p className="text-slate-500 text-sm">Replacez le câble et refermez la trappe de la borne.</p>
+          <h3 className="text-2xl !font-body font-bold text-brand-accent mb-4">2. Rangez</h3>
+          <p className="text-slate-500 text-sm"><strong>Replacez le câble</strong> et <strong>refermez la trappe</strong> de la borne.</p>
         </div>
       </div>
 
       {/* Hatch status indicator */}
-      <div className="w-full max-w-md mb-10">
+      <div className="w-full max-w-md mb-8 shrink-0 mt-auto">
         <AnimatePresence mode="wait">
           {!isHatchClosed ? (
             <motion.div
@@ -91,7 +91,7 @@ const UnplugScreen: React.FC<Props> = ({ onComplete }) => {
         variant={isHatchClosed ? 'accent' : 'outline'}
         onClick={onComplete}
         disabled={!isHatchClosed}
-        className="px-20 py-6 text-xl"
+        className="px-20 py-5 md:py-6 text-2xl md:text-3xl mb-8 shrink-0 transition-all shadow-lg !font-body"
       >
         Continuer
       </Button>

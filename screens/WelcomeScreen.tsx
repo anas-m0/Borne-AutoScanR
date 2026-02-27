@@ -342,7 +342,7 @@ const FeatureCard: React.FC<{ icon: React.ReactNode; title: string; desc: string
     className="bg-white p-6 rounded-[2rem] flex flex-col items-center shadow-md border border-slate-100 hover:shadow-lg transition-all"
   >
     <div className="mb-4 p-3 bg-slate-50 rounded-2xl text-brand-primary">{icon}</div>
-    <h3 className="text-slate-900 font-heading font-bold text-base mb-2">{title}</h3>
+    <h3 className="text-slate-900 font-body font-bold text-lg md:text-xl mb-1 md:mb-2">{title}</h3>
     <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
   </motion.div>
 );

@@ -21,7 +21,7 @@ const PaymentImprintScreen: React.FC<Props> = ({ onAuthorized }) => {
   return (
     <div className="max-w-6xl mx-auto min-h-full flex flex-col justify-center px-4 py-2 md:px-8 md:py-4">
       <div className="text-center mb-4 md:mb-6">
-        <h2 className="text-2xl md:text-3xl font-heading font-bold text-[#071738] mb-1 md:mb-2">Lancement du Service</h2>
+        <h2 className="text-3xl md:text-5xl font-body font-bold text-[#071738] mb-1 md:mb-2">Lancement du service</h2>
         <p className="text-slate-500 text-sm md:text-base">Une empreinte bancaire est requise pour démarrer l'analyse de votre véhicule.</p>
       </div>
 
@@ -81,14 +81,14 @@ const PaymentImprintScreen: React.FC<Props> = ({ onAuthorized }) => {
           <div className="flex flex-col xl:flex-row items-center justify-between pt-4 border-t border-slate-100 gap-4 mt-auto">
             <div className="flex flex-col justify-center text-center xl:text-left pt-2 mt-1">
               <span className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Total à régler</span>
-              <span className="text-4xl md:text-5xl font-heading font-black text-brand-primary leading-none tracking-tight">19,90€</span>
+              <span className="text-4xl md:text-5xl font-body font-black text-brand-primary leading-none tracking-tight">19,90€</span>
             </div>
 
             <div className="w-full xl:w-auto flex flex-col gap-2 min-w-[240px]">
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-1 text-center xl:text-left">Code promo</h4>
               <div className="flex gap-2 w-full">
                 <input type="text" placeholder="CODE" className="flex-1 w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold placeholder-slate-400 focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all uppercase" />
-                <Button variant="outline" className="py-3 px-4 text-xs whitespace-nowrap !bg-white">Appliquer</Button>
+                <Button variant="outline" className="py-3 px-4 text-xs whitespace-nowrap !bg-white !font-body">Appliquer</Button>
               </div>
             </div>
           </div>

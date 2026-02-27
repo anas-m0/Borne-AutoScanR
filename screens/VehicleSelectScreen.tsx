@@ -110,8 +110,12 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
     <div className="max-w-6xl mx-auto min-h-full flex flex-col items-center px-6 md:px-10 py-4 md:py-8">
 
       <div className="text-center mb-6 md:mb-8">
-        <h2 className="text-2xl md:text-4xl font-heading font-bold text-brand-dark mb-2">Identification</h2>
-        <p className="text-slate-500 text-sm md:text-lg">Confirmez les informations de votre véhicule récupérées.</p>
+        <h2 className="text-4xl md:text-5xl !font-body font-bold text-brand-dark mb-2">Identification.</h2>
+        <p className="text-slate-500 text-sm md:text-lg">
+          {status === 'FOUND'
+            ? "Confirmez les informations de votre véhicule récupérées."
+            : "Identifiez votre véhicule par un des trois moyens ci-dessous."}
+        </p>
       </div>
 
       {status === 'IDLE' && (
@@ -171,7 +175,7 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
                   <SpecItem icon={<Settings2 size={16} />} label="Boîte" value={vehicleData.specs.gearbox} />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <Button variant="primary" onClick={() => onVehicleFound(vehicleData.name)} className="w-full py-5 text-lg transition-colors hover:!bg-[#071738]">Confirmer et Continuer</Button>
+                  <Button variant="primary" onClick={() => onVehicleFound(vehicleData.name)} className="w-full py-5 text-2xl transition-colors hover:!bg-[#071738] !font-body">Confirmer et Continuer</Button>
                   <button
                     onClick={() => {
                       setStatus('IDLE');
@@ -427,7 +431,7 @@ const VehicleSelectScreen: React.FC<Props> = ({ onVehicleFound }) => {
               variant="primary"
               onClick={handleSearch}
               disabled={!isFormValid()}
-              className="w-full py-5 text-lg shadow-xl"
+              className="w-full py-5 text-2xl shadow-xl !font-body"
               icon={<Search size={20} />}
             >
               {method === 'MANUAL' ? 'Valider les infos' : 'Rechercher le véhicule'}

@@ -23,14 +23,14 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
       icon: <PackageOpen className="w-24 h-24 md:w-32 md:h-32 text-brand-primary" />,
       video: '/videos/instructions/recuperation-cable.mp4',
       details: [
-        "La trappe s'est déverrouillée.",
-        "Munissez-vous du câble avec l'embout OBD.",
-        "Déroulez la longueur nécessaire."
+        <>La trappe s'est <strong>déverrouillée</strong>.</>,
+        <>Munissez-vous du <strong>câble OBD</strong>.</>,
+        <>Déroulez la longueur <strong>nécessaire</strong>.</>
       ]
     },
     {
       title: "Branchement OBD",
-      desc: `Branchez le câble sur la prise OBD de votre ${vehicleName}.`,
+      desc: <>Branchez le <strong>câble</strong> à la <strong>prise OBD</strong> de votre <strong>{vehicleName}</strong>.</>,
       icon: <Cable className="w-24 h-24 md:w-32 md:h-32 text-brand-accent" />,
       video: dynamicObdVideo, // Fallback logic is handled in the render
       details: [
@@ -41,13 +41,13 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
     },
     {
       title: "Mise en contact",
-      desc: "Mettez le contact de votre véhicule sans démarrer le moteur.",
+      desc: <>Mettez le <strong>contact</strong> de votre véhicule <strong>sans démarrer le moteur</strong>.</>,
       icon: <Key className="w-24 h-24 md:w-32 md:h-32 text-emerald-500" />,
       video: '/videos/instructions/mise-en-contact.mp4',
       details: [
-        "Insérez et tournez la clé ou appuyez sur Start pour mettre le contact.",
-        "Le tableau de bord doit s'allumer.",
-        "Vous pouvez maintenant démarrer le diagnostic."
+        <>Insérez et tournez la <strong>clé</strong> ou appuyez sur <strong>Start</strong> pour mettre le <strong>contact</strong>.</>,
+        <>Le tableau de bord doit <strong>s'allumer</strong>.</>,
+        <>Vous pouvez maintenant <strong>démarrer le diagnostic</strong>.</>
       ]
     }
   ];
@@ -157,7 +157,7 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
           {/* Text Instructions */}
           <div className="flex-1 text-center lg:text-left">
             <span className="text-brand-primary font-heading font-bold text-xs tracking-widest uppercase opacity-70 mb-2 block">Étape {step + 1} / {steps.length}</span>
-            <h2 className="text-3xl md:text-5xl font-heading font-bold text-brand-primary mb-4 md:mb-6 leading-tight">{steps[step].title}</h2>
+            <h2 className="text-4xl md:text-6xl font-body font-bold text-brand-primary mb-4 md:mb-6 leading-tight">{steps[step].title}</h2>
             <p className="text-lg md:text-xl text-slate-500 mb-8 max-w-xl">{steps[step].desc}</p>
 
             <div className="space-y-3 mb-10">
@@ -173,7 +173,7 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
               {step > 0 && (
                 <Button
                   onClick={() => setStep(step - 1)}
-                  className="sm:w-1/3 py-5 text-lg"
+                  className="sm:w-1/3 py-5 text-2xl !font-body whitespace-nowrap"
                   variant="outline"
                 >
                   Retour
@@ -181,11 +181,11 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
               )}
               <Button
                 onClick={handleStepAction}
-                className="flex-1 py-5 text-lg"
+                className="flex-1 py-5 text-2xl !font-body whitespace-nowrap"
                 variant={step === steps.length - 1 ? 'accent' : 'primary'}
                 icon={step === steps.length - 1 ? <PlayCircle /> : <ArrowRight />}
               >
-                {step === steps.length - 1 ? 'Démarrer le Scan' : 'Étape suivante'}
+                {step === steps.length - 1 ? 'Démarrer' : 'Étape suivante'}
               </Button>
             </div>
           </div>

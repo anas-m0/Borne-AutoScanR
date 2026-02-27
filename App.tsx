@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { AppStep, Garage } from './types';
 import { Logo } from './components/Logo';
-import { ChevronLeft, HelpCircle, X, HeartHandshake, CheckCircle } from 'lucide-react';
+import { ChevronLeft, HelpCircle, X, HeartHandshake, CheckCircle, Lock, Printer, Mail } from 'lucide-react';
 import { mockGarages } from './services/mockData';
 
 // Screens
@@ -205,6 +205,99 @@ const FinalSuccessScreen = ({ onRestart, action }: { onRestart: () => void; acti
 };
 
 
+const PaymentModal = ({ price, onClose, onConfirm }: { price: string, onClose: () => void, onConfirm: () => void }) => {
+  const [receiptChoice, setReceiptChoice] = useState<'print' | 'email' | null>(null);
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleConfirm = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      onConfirm();
+    }, 1500);
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-md">
+      <motion.div
+        className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-md p-10 relative border border-white"
+        initial={{ scale: 0.92, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.92, opacity: 0, y: 20 }}
+        transition={{ type: 'spring', damping: 20, stiffness: 260 }}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6 text-slate-400 hover:text-slate-700 transition-colors"
+        >
+          <X size={22} />
+        </button>
+
+        <img src="/logo.png" alt="AutoScanR" className="h-8 object-contain mb-6" />
+        <h3 className="text-2xl font-heading font-bold text-slate-900 mb-1">Confirmer le paiement</h3>
+        <p className="text-slate-500 text-sm mb-8">
+          Montant débité : <strong className="text-brand-primary">{price}€</strong> sur votre empreinte bancaire.
+        </p>
+
+        <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Recevoir mon reçu par</p>
+        <div className="grid grid-cols-2 gap-3 mb-8">
+          <button
+            onClick={() => setReceiptChoice('print')}
+            className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${receiptChoice === 'print'
+              ? 'border-brand-primary bg-brand-primary/5 text-brand-primary'
+              : 'border-slate-200 text-slate-400 hover:border-slate-300'
+              }`}
+          >
+            <Printer size={24} />
+            <span className="text-xs font-black uppercase tracking-wider">Impression</span>
+          </button>
+          <button
+            onClick={() => setReceiptChoice('email')}
+            className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all ${receiptChoice === 'email'
+              ? 'border-brand-primary bg-brand-primary/5 text-brand-primary'
+              : 'border-slate-200 text-slate-400 hover:border-slate-300'
+              }`}
+          >
+            <Mail size={24} />
+            <span className="text-xs font-black uppercase tracking-wider">E-mail</span>
+          </button>
+        </div>
+
+        <AnimatePresence>
+          {receiptChoice === 'email' && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="overflow-hidden mb-6"
+            >
+              <input
+                type="email"
+                placeholder="votre@email.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm outline-none focus:border-brand-primary transition-colors font-body"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <Button
+          variant="primary"
+          onClick={handleConfirm}
+          isLoading={loading}
+          disabled={!receiptChoice || (receiptChoice === 'email' && !email)}
+          className="w-full py-4 text-lg !font-body uppercase"
+          icon={<Lock />}
+        >
+          Confirmer et payer {price}€
+        </Button>
+      </motion.div>
+    </div>
+  );
+};
+
 const HelpModal = ({ onClose }: { onClose: () => void }) => (
   <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-md p-6">
     <motion.div
@@ -246,6 +339,7 @@ export default function App() {
   const [issuesCount, setIssuesCount] = useState<number>(0);
   const [selectedGarageId, setSelectedGarageId] = useState<string | null>(null);
   const [showHelp, setShowHelp] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [finalAction, setFinalAction] = useState<'BOOKED' | 'REPORT_SENT' | 'NONE'>('NONE');
 
   const stepsList = Object.values(AppStep);
@@ -280,7 +374,7 @@ export default function App() {
       case AppStep.INSTRUCTIONS: return <InstructionsScreen vehicleName={vehicleInfo} onNext={() => setCurrentStep(AppStep.SCANNING)} />;
       case AppStep.SCANNING: return <ScanningScreen onComplete={(count) => { setIssuesCount(count); setCurrentStep(AppStep.UNPLUG); }} />;
       case AppStep.UNPLUG: return <UnplugScreen onComplete={() => setCurrentStep(AppStep.PLAN_SELECTION)} />;
-      case AppStep.PLAN_SELECTION: return <PlanSelectionScreen issuesCount={issuesCount} onPlanSelected={() => setCurrentStep(AppStep.RESULTS)} />;
+      case AppStep.PLAN_SELECTION: return <PlanSelectionScreen issuesCount={issuesCount} onPlanSelected={() => setShowPaymentModal(true)} />;
       case AppStep.RESULTS: return <ResultsScreen vehicleName={vehicleInfo} onReceiveReport={() => setCurrentStep(AppStep.COLLECT_CONTACT)} />;
       case AppStep.COLLECT_CONTACT: return <CollectContactScreen onComplete={() => setCurrentStep(AppStep.MAP)} />;
       case AppStep.MAP: return <MapScreen onBook={(garageId) => { setSelectedGarageId(garageId); setCurrentStep(AppStep.BOOKING); }} onSendReport={() => setCurrentStep(AppStep.SEND_REPORT)} />;
@@ -295,7 +389,7 @@ export default function App() {
   };
 
   const showHeader = currentStep !== AppStep.WELCOME && currentStep !== AppStep.FINAL_SUCCESS;
-  const showBackBtn = showHeader && currentStep !== AppStep.SCANNING;
+  const showBackBtn = showHeader;
 
   return (
     <div className="min-h-screen bg-brand-light text-slate-800 flex flex-col relative font-body selection:bg-brand-primary/10">
@@ -356,7 +450,7 @@ export default function App() {
       </main>
 
       {currentStep === AppStep.WELCOME && (
-        <footer className="shrink-0 py-6 w-full text-center text-slate-400 text-[10px] md:text-xs z-10 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3">
+        <footer className="shrink-0 py-3 w-full text-center text-slate-400 text-[10px] md:text-xs z-10 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3">
           <HeartHandshake size={16} className="text-brand-primary/40" />
           <p>Expertise technologique au service de votre sérénité</p>
         </footer>
@@ -364,6 +458,16 @@ export default function App() {
 
       <AnimatePresence>
         {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
+        {showPaymentModal && (
+          <PaymentModal
+            price="19,90"
+            onClose={() => setShowPaymentModal(false)}
+            onConfirm={() => {
+              setShowPaymentModal(false);
+              setCurrentStep(AppStep.RESULTS);
+            }}
+          />
+        )}
       </AnimatePresence>
     </div>
   );
