@@ -65,9 +65,9 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
 
       {/* Prettier Header & Stepper */}
       <div className="w-full max-w-3xl mb-16 md:mb-24">
-        <div className="text-center mb-8">
-          <span className="inline-block py-1 px-3 rounded-full bg-brand-primary/10 text-brand-primary font-bold text-[10px] md:text-xs uppercase tracking-widest mb-2 md:mb-3">Préparation du Diagnostic</span>
-          <h1 className="text-2xl md:text-3xl font-heading font-black text-[#071738] mb-2 tracking-tight">Connexion au véhicule</h1>
+        <div className="text-center mb-4">
+          <span className="inline-block py-1 px-3 rounded-full bg-brand-primary/10 text-brand-primary font-bold text-[10px] md:text-xs uppercase tracking-widest mb-1">Préparation du Diagnostic</span>
+          <h1 className="text-2xl md:text-3xl font-heading font-black text-[#071738] mb-0.5 tracking-tight">Connexion au véhicule</h1>
           <p className="text-slate-500 text-sm md:text-base max-w-md mx-auto">Suivez ces 3 étapes pour relier la borne à votre voiture.</p>
         </div>
 
@@ -110,11 +110,11 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
-          className="flex flex-col lg:flex-row items-center justify-center gap-8 md:gap-16 w-full max-w-5xl mx-auto pb-12"
+          className="flex flex-col lg:flex-row items-center justify-center gap-6 md:gap-10 w-full max-w-5xl mx-auto pb-0"
         >
           {/* Visual Area */}
-          <div className="w-full max-w-sm md:max-w-md shrink-0">
-            <div className="relative aspect-square bg-slate-50 border border-slate-200 rounded-[2.5rem] lg:rounded-[3rem] flex items-center justify-center overflow-hidden shadow-sm">
+          <div className="w-full max-w-sm md:max-w-lg shrink-0 flex justify-center">
+            <div className="relative w-64 h-64 md:w-[380px] md:h-[380px] bg-slate-50 border border-slate-200 rounded-[2.5rem] lg:rounded-[3rem] flex items-center justify-center overflow-hidden shadow-sm">
               <div className="absolute inset-0 bg-brand-primary/5 opacity-50 animate-pulse" />
 
               {/* Dynamic Video or Fallback Icon */}
@@ -127,7 +127,7 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
                     loop
                     muted
                     playsInline
-                    className={`absolute inset-0 w-full h-full z-10 ${step === 0 ? 'object-contain' : 'object-cover'}`}
+                    className="absolute inset-0 w-full h-full z-10 object-cover"
                     style={{ backgroundColor: '#ffffff' }} // White background for letterboxing
                     onError={(e) => {
                       // If video fails to load, hide the video element and show the fallback div
@@ -155,25 +155,25 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
           </div>
 
           {/* Text Instructions */}
-          <div className="flex-1 text-center lg:text-left">
-            <span className="text-brand-primary font-heading font-bold text-xs tracking-widest uppercase opacity-70 mb-2 block">Étape {step + 1} / {steps.length}</span>
-            <h2 className="text-4xl md:text-6xl font-body font-bold text-brand-primary mb-4 md:mb-6 leading-tight">{steps[step].title}</h2>
-            <p className="text-lg md:text-xl text-slate-500 mb-8 max-w-xl">{steps[step].desc}</p>
+          <div className="flex-1 text-center lg:text-left flex flex-col justify-center">
+            <span className="text-brand-primary font-heading font-bold text-[10px] md:text-xs tracking-widest uppercase opacity-70 mb-1 block">Étape {step + 1} / {steps.length}</span>
+            <h2 className="text-4xl md:text-5xl font-body font-bold text-brand-primary mb-2 md:mb-3 leading-tight w-full">{steps[step].title}</h2>
+            <p className="text-base md:text-lg text-slate-500 mb-4 w-full">{steps[step].desc}</p>
 
-            <div className="space-y-3 mb-10">
+            <div className="space-y-2 mb-6">
               {steps[step].details.map((detail, idx) => (
-                <div key={idx} className="flex items-center gap-4 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
-                  <div className="w-6 h-6 rounded-lg bg-brand-primary/10 flex items-center justify-center text-brand-primary font-bold text-xs">{idx + 1}</div>
+                <div key={idx} className="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
+                  <div className="w-6 h-6 shrink-0 rounded-lg bg-brand-primary/10 flex items-center justify-center text-brand-primary font-bold text-xs">{idx + 1}</div>
                   <span className="text-slate-700 text-sm md:text-base font-medium">{detail}</span>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               {step > 0 && (
                 <Button
                   onClick={() => setStep(step - 1)}
-                  className="sm:w-1/3 py-5 text-2xl !font-body whitespace-nowrap"
+                  className="sm:w-1/3 py-3 text-lg md:text-xl !font-body whitespace-nowrap"
                   variant="outline"
                 >
                   Retour
@@ -181,9 +181,9 @@ const InstructionsScreen: React.FC<Props> = ({ vehicleName = "votre véhicule", 
               )}
               <Button
                 onClick={handleStepAction}
-                className="flex-1 py-5 text-2xl !font-body whitespace-nowrap"
+                className="flex-1 py-3 text-lg md:text-xl !font-body whitespace-nowrap"
                 variant={step === steps.length - 1 ? 'accent' : 'primary'}
-                icon={step === steps.length - 1 ? <PlayCircle /> : <ArrowRight />}
+                icon={step === steps.length - 1 ? <PlayCircle size={22} /> : <ArrowRight size={22} />}
               >
                 {step === steps.length - 1 ? 'Démarrer' : 'Étape suivante'}
               </Button>

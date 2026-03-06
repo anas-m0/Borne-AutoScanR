@@ -117,8 +117,8 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
 
 
   return (
-    <div className="flex-1 max-w-7xl mx-auto w-full flex flex-col px-6 pb-6 gap-6">
-      <div className="flex flex-col items-center text-center gap-3 shrink-0 mb-2">
+    <div className="flex-1 max-w-7xl mx-auto w-full flex flex-col px-6 pb-6 pt-2 gap-4">
+      <div className="flex flex-col items-center text-center gap-2 shrink-0 mb-2">
         <h2 className="text-4xl font-black text-brand-dark tracking-tight">Où réparer votre véhicule ?</h2>
         <p className="text-base text-slate-500 max-w-4xl leading-relaxed">
           Nous avons sélectionné des garages partenaires fiables près de chez vous.
@@ -129,20 +129,20 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
       <div className="flex-1 flex flex-col md:flex-row glass-panel rounded-[2rem] overflow-hidden border border-slate-200 shadow-xl shadow-slate-200/40">
 
         {/* List / Sidebar */}
-        <div className="w-full md:w-[400px] bg-white border-r border-slate-100 flex flex-col z-20 shadow-[10px_0_30px_-10px_rgba(0,0,0,0.1)] relative">
-          <div className="p-8 border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white">
+        <div className="w-full md:w-[400px] bg-white border-r border-slate-100 flex flex-col z-20 shadow-[10px_0_30px_-10px_rgba(0,0,0,0.1)] relative shrink-0">
+          <div className="p-5 border-b border-slate-100 bg-gradient-to-b from-slate-50 to-white shrink-0">
             <h2 className="text-xl font-black text-brand-primary tracking-tight">Nos garages partenaires</h2>
-            <p className="text-[10px] text-slate-400 mt-1.5 font-bold uppercase tracking-[0.2em]">{mockGarages.length} pros recommandés</p>
+            <p className="text-[10px] text-slate-400 mt-1 font-bold uppercase tracking-[0.2em]">{mockGarages.length} pros recommandés</p>
           </div>
 
-          <div className="flex-1 overflow-y-auto custom-scrollbar pb-28 bg-slate-50/30">
+          <div className="flex-1 overflow-y-auto custom-scrollbar pb-24 bg-slate-50/30">
             {mockGarages.map((garage) => (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 key={garage.id}
                 onClick={() => setSelectedGarage(garage.id)}
-                className={`p-4 border-b border-slate-100 cursor-pointer transition-all duration-300 relative overflow-hidden group ${selectedGarage === garage.id ? 'bg-brand-primary/5' : 'hover:bg-white bg-transparent'}`}
+                className={`p-3 border-b border-slate-100 cursor-pointer transition-all duration-300 relative overflow-hidden group ${selectedGarage === garage.id ? 'bg-brand-primary/5' : 'hover:bg-white bg-transparent'}`}
               >
                 {/* Active Indicator Line */}
                 <div className={`absolute left-0 top-0 bottom-0 w-1 transition-all duration-300 ${selectedGarage === garage.id ? 'bg-brand-primary scale-y-100' : 'bg-slate-200 scale-y-0 group-hover:scale-y-100'}`} />
@@ -161,8 +161,8 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-brand-accent mb-2.5">
-                  <Star className="fill-current w-3.5 h-3.5" />
+                <div className="flex items-center gap-1.5 text-brand-accent mb-2">
+                  <Star className="fill-current w-3 h-3" />
                   <span className="text-xs font-black">{garage.rating}</span>
                   <span className="text-[10px] text-slate-400 ml-1 font-bold">(124 avis)</span>
                 </div>
@@ -182,9 +182,9 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
-                      className="mt-3 overflow-hidden"
+                      className="mt-2 overflow-hidden"
                     >
-                      <Button variant="primary" className="w-full text-sm py-2.5 shadow-md shadow-brand-primary/20 hover:shadow-lg focus:outline-none !font-body uppercase" onClick={() => onBook(garage.id)}>
+                      <Button variant="primary" className="w-full text-sm py-2 shadow-md shadow-brand-primary/20 hover:shadow-lg focus:outline-none !font-body uppercase" onClick={() => onBook(garage.id)}>
                         Prendre rendez-vous
                       </Button>
                     </motion.div>
@@ -195,10 +195,10 @@ const MapScreen: React.FC<Props> = ({ onBook, onSendReport }) => {
           </div>
 
           {/* Global Action Footer */}
-          <div className="absolute bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 p-5 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] z-30">
+          <div className="absolute bottom-0 w-full bg-white/95 backdrop-blur-xl border-t border-slate-100 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] z-30">
             <Button
               variant="secondary"
-              className="w-full text-base font-black tracking-tight py-4 text-[#071738] bg-slate-100 hover:bg-slate-200 transition-colors shadow-none border-none font-['Poppins']"
+              className="w-full text-sm font-black tracking-tight py-3 text-[#071738] bg-slate-100 hover:bg-slate-200 transition-colors shadow-none border-none font-['Poppins']"
               onClick={onSendReport}
             >
               Je ne souhaite pas prendre RDV maintenant

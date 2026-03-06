@@ -46,7 +46,7 @@ const ScanningScreen: React.FC<Props> = ({ onComplete }) => {
   }, [onComplete, currentMessage]);
 
   return (
-    <div className="min-h-[100dvh] md:min-h-full h-full flex flex-col items-center justify-between pt-4 px-8 relative overflow-hidden">
+    <div className="min-h-[100dvh] md:min-h-full h-full flex flex-col items-center justify-center px-8 relative overflow-hidden pb-[5vh] gap-6 md:gap-8">
 
       {/* ── Element 1: Title + Car Scanner ── */}
       <div className="text-center z-10 w-full flex flex-col items-center shrink-0">
@@ -114,7 +114,7 @@ const ScanningScreen: React.FC<Props> = ({ onComplete }) => {
       </div>
 
       {/* ── Element 2: Ad Banner (Centered) ── */}
-      <div className="flex-1 w-full flex items-center justify-center py-6">
+      <div className="w-full flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -147,7 +147,7 @@ const ScanningScreen: React.FC<Props> = ({ onComplete }) => {
       </div>
 
       {/* ── Element 3: Progress Bar + System Checks (Bottom) ── */}
-      <div className="w-full max-w-4xl z-10 px-4 mt-auto shrink-0 pb-1">
+      <div className="w-full max-w-4xl z-10 px-4 shrink-0">
         <div className="flex justify-between items-end mb-2">
           <AnimatePresence mode="wait">
             <motion.p key={currentMessage} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-slate-700 font-bold italic flex items-center gap-3">

@@ -50,12 +50,12 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
     const activeIssues = activeSystem ? issuesFor(activeSystem) : [];
 
     return (
-        <div className="max-w-7xl mx-auto flex flex-col px-6 py-8 gap-6" style={{ height: '100%' }}>
+        <div className="max-w-7xl mx-auto flex flex-col px-6 py-4 xl:py-6 gap-4" style={{ height: '100%' }}>
 
             {/* ── KPI bar ── */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 shrink-0">
                 {/* Health score */}
-                <div className="bg-gradient-to-br from-white to-slate-50/50 rounded-[2rem] p-6 flex items-center gap-5 shadow-xl shadow-slate-200/40 border border-white/60 relative overflow-hidden group">
+                <div className="bg-gradient-to-br from-white to-slate-50/50 rounded-3xl p-4 md:p-5 flex items-center gap-4 shadow-xl shadow-slate-200/40 border border-white/60 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-brand-primary/10 transition-colors duration-500" />
                     <div className="relative w-16 h-16 shrink-0 drop-shadow-sm">
                         <svg className="w-full h-full -rotate-90" viewBox="0 0 48 48">
@@ -80,9 +80,9 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
                 </div>
 
                 {/* Vehicle */}
-                <div className="bg-gradient-to-br from-white to-slate-50/50 rounded-[2rem] p-6 flex flex-col justify-center shadow-xl shadow-slate-200/40 border border-white/60 relative overflow-hidden group">
+                <div className="bg-gradient-to-br from-white to-slate-50/50 rounded-3xl p-4 md:p-5 flex flex-col justify-center shadow-xl shadow-slate-200/40 border border-white/60 relative overflow-hidden group">
                     <div className="absolute bottom-0 right-0 w-24 h-24 bg-brand-accent/5 rounded-full blur-xl translate-y-1/2 translate-x-1/2 group-hover:bg-brand-accent/10 transition-colors duration-500" />
-                    <div className="relative z-10 flex items-center gap-4">
+                    <div className="relative z-10 flex items-center gap-3">
                         <div>
                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Véhicule analysé</p>
                             <h3 className="text-2xl font-black text-brand-dark tracking-tight truncate max-w-[150px] md:max-w-[200px]">{vehicleName}</h3>
@@ -108,9 +108,9 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
                 </div>
 
                 {/* Issues */}
-                <div className={`rounded-[2rem] p-6 flex items-center gap-5 shadow-xl border relative overflow-hidden group ${totalIssues > 0 ? 'bg-gradient-to-br from-amber-50 to-white border-amber-100/50 shadow-amber-900/5' : 'bg-gradient-to-br from-emerald-50 to-white border-emerald-100/50 shadow-emerald-900/5'}`}>
+                <div className={`rounded-3xl p-4 md:p-5 flex items-center gap-4 shadow-xl border relative overflow-hidden group ${totalIssues > 0 ? 'bg-gradient-to-br from-amber-50 to-white border-amber-100/50 shadow-amber-900/5' : 'bg-gradient-to-br from-emerald-50 to-white border-emerald-100/50 shadow-emerald-900/5'}`}>
                     <div className={`absolute -right-4 -top-4 w-32 h-32 rounded-full blur-2xl opacity-50 transition-opacity duration-500 group-hover:opacity-70 ${totalIssues > 0 ? 'bg-amber-400/20' : 'bg-emerald-400/20'}`} />
-                    <div className={`relative z-10 p-4 rounded-2xl shadow-inner ${totalIssues > 0 ? 'bg-amber-500 text-white shadow-amber-600/50' : 'bg-emerald-500 text-white shadow-emerald-600/50'}`}>
+                    <div className={`relative z-10 p-3 lg:p-4 rounded-xl shadow-inner ${totalIssues > 0 ? 'bg-amber-500 text-white shadow-amber-600/50' : 'bg-emerald-500 text-white shadow-emerald-600/50'}`}>
                         {totalIssues > 0 ? <AlertTriangle size={24} strokeWidth={2.5} /> : <CheckCircle2 size={24} strokeWidth={2.5} />}
                     </div>
                     <div className="relative z-10">
@@ -123,7 +123,7 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
             </div>
 
             {/* ── Single main card ── */}
-            <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 overflow-hidden relative" style={{ height: '60vh', minHeight: 420 }}>
+            <div className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden relative flex-1 min-h-[450px]">
                 <AnimatePresence mode="wait">
 
                     {/* ── Car diagram view ── */}
@@ -322,7 +322,7 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
             </div>
 
             {/* ── Footer CTA ── */}
-            <div className="bg-white/80 backdrop-blur-xl p-5 md:p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white flex flex-col xl:flex-row items-center justify-between gap-6 relative z-10">
+            <div className="bg-white/80 backdrop-blur-xl p-4 md:p-5 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white flex flex-col xl:flex-row items-center justify-between gap-4 relative z-10 shrink-0 mb-4 xl:mb-0">
                 <div className="flex flex-col gap-2 w-full xl:w-auto">
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Inclus dans le rapport complet</p>
                     <div className="flex gap-2 flex-wrap">

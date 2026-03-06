@@ -98,9 +98,9 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto min-h-full flex flex-col px-6 py-8 md:py-12">
+    <div className="max-w-6xl mx-auto min-h-full flex flex-col px-6 py-4 md:py-6 gap-4">
       {/* ── Screen Header ── */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 shrink-0">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 shrink-0">
         <div className="flex flex-col gap-2">
           <h2 className="text-3xl font-black text-brand-dark tracking-tight">Envoyez votre rapport aux professionnels de la réparation</h2>
           <p className="text-base text-slate-500 max-w-3xl leading-relaxed">
@@ -109,15 +109,15 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col lg:flex-row gap-10">
+      <div className="flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 min-h-0">
 
         {/* Left: Garage List */}
         <div className="flex-1 flex flex-col">
-          <div className="bg-white/80 backdrop-blur-xl rounded-[2rem] border border-white shadow-xl shadow-slate-200/40 overflow-hidden flex flex-col h-full relative z-10">
-            <div className="p-8 bg-gradient-to-b from-slate-50 to-white/50 border-b border-slate-100 flex justify-between items-end">
+          <div className="bg-white/80 backdrop-blur-xl rounded-3xl border border-white shadow-xl shadow-slate-200/40 overflow-hidden flex flex-col h-full relative z-10">
+            <div className="p-6 bg-gradient-to-b from-slate-50 to-white/50 border-b border-slate-100 flex justify-between items-end">
               <div>
                 <h3 className="text-xl font-black text-brand-primary tracking-tight">Liste des pros</h3>
-                <p className="text-[10px] text-slate-400 mt-1.5 font-bold uppercase tracking-[0.2em]">{mockGarages.length} disponibles</p>
+                <p className="text-[10px] text-slate-400 mt-1 font-bold uppercase tracking-[0.2em]">{mockGarages.length} disponibles</p>
               </div>
               <button
                 onClick={() => {
@@ -133,14 +133,14 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-4 bg-slate-50/30">
+            <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-3 bg-slate-50/30">
               {mockGarages.map((garage) => {
                 const isSelected = selectedIds.includes(garage.id);
                 return (
                   <div
                     key={garage.id}
                     onClick={() => toggleGarage(garage.id)}
-                    className={`p-5 rounded-2xl flex items-center gap-4 cursor-pointer transition-all duration-300 border-2 relative overflow-hidden group ${isSelected ? 'bg-white border-brand-primary shadow-md' : 'bg-white/60 border-transparent hover:bg-white hover:border-slate-200 hover:shadow-sm'}`}
+                    className={`p-4 rounded-2xl flex items-center gap-4 cursor-pointer transition-all duration-300 border-2 relative overflow-hidden group ${isSelected ? 'bg-white border-brand-primary shadow-md' : 'bg-white/60 border-transparent hover:bg-white hover:border-slate-200 hover:shadow-sm'}`}
                   >
                     <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${isSelected ? 'bg-brand-primary border-brand-primary text-white scale-110' : 'border-slate-300 group-hover:border-slate-400'}`}>
                       {isSelected && <CheckCircle size={14} strokeWidth={3} />}
@@ -169,37 +169,37 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
 
         {/* Right: Contact & Observations */}
         <div className="flex-[1.2] flex flex-col">
-          <div className="bg-white/90 backdrop-blur-xl p-8 lg:p-10 rounded-[2rem] border border-white shadow-xl shadow-slate-200/40 flex flex-col h-full relative z-10">
-            <div className="mb-8">
-              <h3 className="text-2xl font-black text-brand-dark flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary shadow-sm"><MessageSquare size={20} className="ml-0.5" /></div>
-                Vos coordonnées
+          <div className="bg-white/90 backdrop-blur-xl p-6 lg:p-8 rounded-3xl border border-white shadow-xl shadow-slate-200/40 flex flex-col h-full relative z-10">
+            <div className="mb-6">
+              <h3 className="text-xl font-black text-brand-dark flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary shadow-sm"><MessageSquare size={18} className="ml-0.5" /></div>
+                Vos informations
               </h3>
-              <p className="text-sm text-slate-500 mt-2 ml-14">Elles seront transmises uniquement aux garages sélectionnés.</p>
+              <p className="text-sm text-slate-500 mt-2 ml-11">Elles seront transmises uniquement aux garages sélectionnés.</p>
             </div>
 
-            <div className="space-y-6 flex-1 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="space-y-2.5">
+            <div className="space-y-4 flex-1 bg-slate-50 p-5 rounded-2xl border border-slate-100 overflow-y-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Nom complet</label>
-                  <input type="text" className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all" placeholder="John Doe" />
+                  <input type="text" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all text-sm" placeholder="John Doe" />
                 </div>
-                <div className="space-y-2.5">
+                <div className="space-y-1.5">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Téléphone</label>
-                  <input type="tel" className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all" placeholder="06 12 34 56 78" />
+                  <input type="tel" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all text-sm" placeholder="06 12 34 56 78" />
                 </div>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2 pt-0">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Symptômes rencontrés</label>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-3 gap-1.5">
                   {commonSymptoms.map(symptom => {
                     const isSelected = selectedSymptoms.includes(symptom);
                     return (
                       <button
                         key={symptom}
                         onClick={() => toggleSymptom(symptom)}
-                        className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 border-2 ${isSelected
+                        className={`px-2 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all duration-300 border-2 truncate ${isSelected
                           ? 'bg-brand-primary border-brand-primary text-white shadow-md shadow-brand-primary/20'
                           : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:shadow-sm'
                           }`}
@@ -210,13 +210,13 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
                   })}
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-1">
                   <textarea
-                    rows={3}
+                    rows={2}
                     value={otherObservations}
                     onChange={(e) => setOtherObservations(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all resize-none"
-                    placeholder="Précisez votre problème (ex: bruit de claquement à l'avant droit en tournant le volant)..."
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all resize-none text-sm"
+                    placeholder="Précisez votre problème (ex: bruit de claquement)..."
                   />
                 </div>
               </div>
@@ -229,10 +229,10 @@ const SendReportScreen: React.FC<Props> = ({ onComplete, onBack }) => {
       </div>
 
       {/* Global Actions */}
-      <div className="mt-10 flex flex-col items-center gap-4 shrink-0">
+      <div className="mt-4 flex flex-col items-center gap-2 shrink-0">
         <Button
           variant="primary"
-          className="w-full max-w-md py-5 text-lg !font-body uppercase"
+          className="w-full max-w-sm py-3 text-base !font-body uppercase"
           disabled={selectedIds.length === 0}
           onClick={handleSend}
           icon={<Send size={20} />}

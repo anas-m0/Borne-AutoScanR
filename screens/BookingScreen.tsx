@@ -44,7 +44,7 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
   const dates = [
     { label: "Aujourd'hui", val: "today" },
     { label: "Demain", val: "tomorrow" },
-    { label: "Lundi", val: "mon" },
+    { label: "Autre", val: "other" },
   ];
   const times = ["09:00", "10:30", "14:00", "16:30", "17:30"];
 
@@ -94,9 +94,9 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto min-h-full flex flex-col px-6 py-8 md:py-12">
+      <div className="max-w-6xl mx-auto min-h-full flex flex-col px-6 py-4 md:py-6 gap-4">
         {/* ── Screen Header ── */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 shrink-0">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 shrink-0">
           <div className="flex flex-col gap-2">
             <h2 className="text-3xl font-black text-brand-dark tracking-tight">Planifiez votre rendez-vous</h2>
             <p className="text-base text-slate-500 max-w-2xl leading-relaxed">
@@ -123,36 +123,66 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col lg:flex-row gap-6 lg:gap-8 min-h-0">
+        <div className="flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 min-h-0">
           {/* Left: Slot Selection */}
           <div className="flex-1 flex flex-col">
-            <div className="bg-white/90 backdrop-blur-xl p-8 lg:p-10 rounded-[2rem] border border-white shadow-xl shadow-slate-200/40 flex flex-col h-full relative z-10">
-              <div className="mb-8">
-                <h3 className="text-2xl font-black text-brand-dark flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary shadow-sm"><Calendar size={20} className="mb-0.5" /></div>
+            <div className="bg-white/90 backdrop-blur-xl p-6 lg:p-8 rounded-3xl border border-white shadow-xl shadow-slate-200/40 flex flex-col h-full relative z-10">
+              <div className="mb-6">
+                <h3 className="text-xl font-black text-brand-dark flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary shadow-sm"><Calendar size={18} className="mb-0.5" /></div>
                   1. Créneau
                 </h3>
               </div>
 
-              <div className="grid grid-cols-3 gap-3 mb-8">
+              <div className="grid grid-cols-3 gap-2 mb-6">
                 {dates.map((d) => (
-                  <button
-                    key={d.val}
-                    onClick={() => setSelectedDate(d.val)}
-                    className={`py-3 px-2 rounded-xl border-2 text-[10px] sm:text-xs font-black uppercase tracking-widest transition-all ${selectedDate === d.val ? 'bg-brand-primary text-white border-brand-primary shadow-md shadow-brand-primary/20' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'}`}
-                  >
-                    {d.label}
-                  </button>
+                  <div key={d.val} className="relative w-full h-full">
+                    {d.val === 'other' && (
+                      <input
+                        type="date"
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-[100]"
+                        onClick={(e) => {
+                          // Prevent button click underneath
+                          e.stopPropagation();
+                          // Some browsers need explicit showPicker on click
+                          try {
+                            if ('showPicker' in HTMLInputElement.prototype) {
+                              (e.target as HTMLInputElement).showPicker();
+                            }
+                          } catch (err) {
+                            // fallback
+                          }
+                        }}
+                        onChange={(e) => {
+                          if (e.target.value) {
+                            const dateObj = new Date(e.target.value);
+                            // Set the date value directly
+                            setSelectedDate(e.target.value);
+                          }
+                        }}
+                      />
+                    )}
+                    <button
+                      onClick={() => {
+                        if (d.val !== 'other') setSelectedDate(d.val);
+                      }}
+                      className={`w-full h-full py-2 px-1 rounded-xl border-2 text-xs font-black uppercase tracking-widest transition-all truncate relative z-10 ${selectedDate === d.val || (d.val === 'other' && selectedDate && !['today', 'tomorrow'].includes(selectedDate)) ? 'bg-brand-primary text-white border-brand-primary shadow-md shadow-brand-primary/20' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'}`}
+                    >
+                      {d.val === 'other' && selectedDate && !['today', 'tomorrow'].includes(selectedDate)
+                        ? new Date(selectedDate).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })
+                        : d.label}
+                    </button>
+                  </div>
                 ))}
               </div>
 
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-4 gap-2">
                 {times.map((t) => (
                   <button
                     key={t}
                     disabled={!selectedDate}
                     onClick={() => { setSelectedTime(t); setStep('FORM'); }}
-                    className={`p-3 rounded-xl border-2 text-sm font-bold transition-all ${selectedTime === t ? 'bg-brand-accent text-white border-brand-accent shadow-md shadow-brand-accent/20' : 'bg-slate-50 text-slate-600 border-slate-100 hover:border-slate-300'} disabled:opacity-40 disabled:cursor-not-allowed`}
+                    className={`p-2 rounded-xl border-2 text-lg font-bold transition-all ${selectedTime === t ? 'bg-brand-accent text-white border-brand-accent shadow-md shadow-brand-accent/20' : 'bg-slate-50 text-slate-600 border-slate-100 hover:border-slate-300'} disabled:opacity-40 disabled:cursor-not-allowed`}
                   >
                     {t}
                   </button>
@@ -163,36 +193,36 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
 
           {/* Right: Contact details */}
           <div className="flex-[1.2] flex flex-col">
-            <div className="bg-white/90 backdrop-blur-xl p-8 lg:p-10 rounded-[2rem] border border-white shadow-xl shadow-slate-200/40 flex flex-col h-full relative z-10">
-              <div className="mb-8">
-                <h3 className="text-2xl font-black text-brand-dark flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary shadow-sm"><User size={20} /></div>
+            <div className="bg-white/90 backdrop-blur-xl p-6 lg:p-8 rounded-3xl border border-white shadow-xl shadow-slate-200/40 flex flex-col h-full relative z-10">
+              <div className="mb-6">
+                <h3 className="text-xl font-black text-brand-dark flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-brand-primary/10 flex items-center justify-center text-brand-primary shadow-sm"><User size={18} /></div>
                   2. Vos informations
                 </h3>
               </div>
 
-              <div className="space-y-6 flex-1 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div className="space-y-2.5">
+              <div className="space-y-4 flex-1 bg-slate-50 p-5 rounded-2xl border border-slate-100 overflow-y-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Nom complet</label>
-                    <input type="text" className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all" placeholder="John Doe" />
+                    <input type="text" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all text-sm" placeholder="John Doe" />
                   </div>
-                  <div className="space-y-2.5">
+                  <div className="space-y-1.5">
                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Téléphone</label>
-                    <input type="tel" className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all" placeholder="06 12 34 56 78" />
+                    <input type="tel" className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all text-sm" placeholder="06 12 34 56 78" />
                   </div>
                 </div>
 
-                <div className="space-y-3 pt-2">
+                <div className="space-y-2 pt-0">
                   <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Symptômes rencontrés</label>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="grid grid-cols-3 gap-1.5">
                     {commonSymptoms.map(symptom => {
                       const isSelected = selectedSymptoms.includes(symptom);
                       return (
                         <button
                           key={symptom}
                           onClick={() => toggleSymptom(symptom)}
-                          className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 border-2 ${isSelected
+                          className={`px-2 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all duration-300 border-2 truncate ${isSelected
                             ? 'bg-brand-primary border-brand-primary text-white shadow-md shadow-brand-primary/20'
                             : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:shadow-sm'
                             }`}
@@ -203,13 +233,13 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
                     })}
                   </div>
 
-                  <div className="pt-2">
+                  <div className="pt-1">
                     <textarea
-                      rows={4}
+                      rows={2}
                       value={otherObservations}
                       onChange={(e) => setOtherObservations(e.target.value)}
-                      placeholder="Précisez votre problème (ex: bruit de claquement à l'avant droit en tournant le volant)..."
-                      className="w-full bg-white border border-slate-200 rounded-xl px-5 py-4 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all resize-none"
+                      placeholder="Précisez votre problème (ex: bruit de claquement)..."
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-brand-dark font-medium shadow-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all resize-none text-sm"
                     />
                   </div>
                 </div>
@@ -219,10 +249,10 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
         </div>
 
         {/* Global Actions */}
-        <div className="mt-10 flex flex-col items-center gap-4 shrink-0">
+        <div className="mt-4 flex flex-col items-center gap-2 shrink-0">
           <Button
             variant="primary"
-            className="w-full max-w-md py-5 text-lg !font-body uppercase"
+            className="w-full max-w-sm py-3 text-base !font-body uppercase"
             disabled={!selectedDate || !selectedTime}
             onClick={handleConfirm}
             icon={<CheckCircle size={20} />}

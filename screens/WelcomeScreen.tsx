@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Logo } from '../components/Logo';
 import { Button } from '../components/Button';
-import { ArrowRight, ShieldCheck, Heart, MessagesSquare, ScanLine, Zap, Activity, FileText, Wrench, ChevronDown, ChevronUp, X, Globe } from 'lucide-react';
+import { Clock } from '../components/Clock';
+import { ArrowRight, ShieldCheck, Heart, MessagesSquare, ScanLine, Zap, Activity, FileText, Wrench, ChevronDown, ChevronUp, X, Globe, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface Props {
@@ -43,6 +44,11 @@ const WelcomeScreen: React.FC<Props> = ({ onStart }) => {
         </button>
       </div>
 
+      {/* Top left floating Clock */}
+      <div className="absolute top-6 left-6 md:top-8 md:left-8 z-50 flex items-center">
+        <Clock />
+      </div>
+
       <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -81,84 +87,19 @@ const WelcomeScreen: React.FC<Props> = ({ onStart }) => {
         />
       </div>
 
-      {/* Enhanced Service Steps Timeline - Collapsible */}
-      {!showSteps ? (
-        <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          onClick={() => setShowSteps(true)}
-          className="mb-12 flex items-center justify-center gap-2 px-6 pt-3 pb-2.5 bg-[#EDF3F8] rounded-full shadow-md hover:bg-[#dbe6f0] transition-all group hover:shadow-lg border border-[#0094A7]"
-        >
-          <span className="font-heading font-semibold text-sm text-[#0094A7] leading-none">
-            Comment ça marche ?
-          </span>
-          <ChevronDown className="w-5 h-5 group-hover:translate-y-0.5 transition-transform text-[#0094A7]" />
-        </motion.button>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          className="w-full mb-12 bg-white/50 backdrop-blur-md p-8 md:p-10 rounded-[2.5rem] border border-slate-200/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative"
-        >
-          <button
-            onClick={() => setShowSteps(false)}
-            className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors z-20"
-            aria-label="Fermer"
-          >
-            <ChevronUp className="w-6 h-6" />
-          </button>
-
-          <h3 className="text-xl md:text-2xl font-heading font-bold text-slate-800 mb-10 text-center">
-            Comment ça <span className="text-brand-primary">marche ?</span>
-          </h3>
-
-          <div className="flex flex-col md:flex-row items-start justify-between relative gap-8 md:gap-4 mt-6">
-            {/* Desktop Progress Line */}
-            <div className="hidden md:block absolute top-8 left-10 right-10 h-1 bg-gradient-to-r from-brand-primary/10 via-brand-primary/30 to-brand-primary/10 -z-10 rounded-full overflow-hidden">
-              <div className="w-1/2 h-full bg-brand-primary/20 animate-pulse-glow"></div>
-            </div>
-
-            {[
-              { icon: <ScanLine className="w-6 h-6" />, title: "Identification", desc: "Identification du véhicule", num: "01", isPrimaryFilled: true },
-              { icon: <Zap className="w-6 h-6" />, title: "Branchement", desc: "Connexion à la prise OBD", num: "02", isPrimaryFilled: false },
-              { icon: <Activity className="w-6 h-6" />, title: "Diagnostic", desc: "Analyse des calculateurs", num: "03", isPrimaryFilled: true },
-              { icon: <FileText className="w-6 h-6" />, title: "Résultats", desc: "Rapport clair et détaillé", num: "04", isPrimaryFilled: false },
-              { icon: <Wrench className="w-6 h-6" />, title: "Accompagnement", desc: "Mise en relation experte", num: "05", isPrimaryFilled: true },
-            ].map((step, idx) => (
-              <div key={idx} className="flex flex-col items-center text-center relative z-10 group w-full md:flex-1 cursor-default pt-2">
-                <div className="relative mb-5">
-                  {/* Background glow on hover */}
-                  <div className={`absolute inset-0 ${step.isPrimaryFilled ? 'bg-brand-primary/20' : 'bg-[#071538]/20'} blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500 opacity-0 group-hover:opacity-100`}></div>
-
-                  {/* Icon container */}
-                  <div className={`w-16 h-16 rounded-2xl border-2 flex items-center justify-center text-white group-hover:-translate-y-2 transition-all duration-300 shadow-sm relative z-10 ${step.isPrimaryFilled
-                    ? 'bg-brand-primary border-brand-primary group-hover:shadow-[0_10px_20px_rgb(0,148,183,0.15)]'
-                    : 'bg-[#071538] border-[#071538] group-hover:shadow-[0_10px_20px_rgba(7,21,56,0.3)]'
-                    }`}>
-                    {step.icon}
-
-                    {/* Number badge */}
-                    <span className={`absolute -top-3 -right-3 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shadow-md transition-opacity delay-100 opacity-100 text-white ${step.isPrimaryFilled
-                      ? 'bg-[#071538]'
-                      : 'bg-brand-primary'
-                      }`}>
-                      {step.num}
-                    </span>
-                  </div>
-                </div>
-
-                <h4 className="text-sm md:text-base font-bold text-slate-800 mb-1 transition-colors group-hover:text-brand-primary">
-                  {step.title}
-                </h4>
-                <p className="text-[10px] md:text-xs text-slate-500 leading-tight md:max-w-[120px] mx-auto">
-                  {step.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      )}
+      {/* Enhanced Service Steps Button */}
+      <motion.button
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        onClick={() => setShowSteps(true)}
+        className="mb-12 flex items-center justify-center gap-2 px-6 pt-3 pb-2.5 bg-[#EDF3F8] rounded-full shadow-md hover:bg-[#dbe6f0] transition-all group hover:shadow-lg border border-[#0094A7]"
+      >
+        <span className="font-body font-semibold text-sm text-[#0094A7] leading-none">
+          Comment ça marche ?
+        </span>
+        <Info className="w-4 h-4 text-[#0094A7]" />
+      </motion.button>
 
       <motion.div
         whileHover={{ scale: 1.02 }}
@@ -296,6 +237,82 @@ const WelcomeScreen: React.FC<Props> = ({ onStart }) => {
           </motion.div>
         </div>
       )}
+
+      {/* How it works modal */}
+      {showSteps && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm" onClick={() => setShowSteps(false)}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-[2.5rem] w-full max-w-5xl shadow-2xl p-8 md:p-12 relative overflow-hidden flex flex-col"
+          >
+            <button
+              onClick={() => setShowSteps(false)}
+              className="absolute top-6 right-6 w-10 h-10 bg-slate-50 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors z-20"
+              aria-label="Fermer"
+            >
+              <X className="w-5 h-5" strokeWidth={2.5} />
+            </button>
+
+            <h3 className="text-2xl md:text-3xl font-body font-bold text-slate-800 mb-12 text-center">
+              Comment ça <span className="text-brand-primary">marche ?</span>
+            </h3>
+
+            <div className="flex flex-col md:flex-row items-start justify-between relative gap-10 md:gap-4 w-full">
+              {/* Desktop Progress Line */}
+              <div className="hidden md:block absolute top-8 left-10 right-10 h-1 bg-gradient-to-r from-brand-primary/10 via-brand-primary/30 to-brand-primary/10 -z-10 rounded-full overflow-hidden">
+                <div className="w-1/2 h-full bg-brand-primary/20 animate-pulse-glow"></div>
+              </div>
+
+              {[
+                { icon: <ScanLine className="w-6 h-6" />, title: "Identification", desc: "Identification du véhicule", num: "01", isPrimaryFilled: true },
+                { icon: <Zap className="w-6 h-6" />, title: "Branchement", desc: "Connexion à la prise OBD", num: "02", isPrimaryFilled: false },
+                { icon: <Activity className="w-6 h-6" />, title: "Diagnostic", desc: "Analyse des calculateurs", num: "03", isPrimaryFilled: true },
+                { icon: <FileText className="w-6 h-6" />, title: "Résultats", desc: "Rapport clair et détaillé", num: "04", isPrimaryFilled: false },
+                { icon: <Wrench className="w-6 h-6" />, title: "Accompagnement", desc: "Mise en relation experte", num: "05", isPrimaryFilled: true },
+              ].map((step, idx) => (
+                <div key={idx} className="flex flex-col items-center text-center relative z-10 group w-full md:flex-1 cursor-default pt-2">
+                  <div className="relative mb-6">
+                    {/* Background glow on hover */}
+                    <div className={`absolute inset-0 ${step.isPrimaryFilled ? 'bg-brand-primary/20' : 'bg-[#071538]/20'} blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500 opacity-0 group-hover:opacity-100`}></div>
+
+                    {/* Icon container */}
+                    <div className={`w-16 h-16 rounded-2xl border-2 flex items-center justify-center text-white group-hover:-translate-y-2 transition-all duration-300 shadow-sm relative z-10 ${step.isPrimaryFilled
+                      ? 'bg-brand-primary border-brand-primary group-hover:shadow-[0_10px_20px_rgb(0,148,183,0.15)]'
+                      : 'bg-[#071538] border-[#071538] group-hover:shadow-[0_10px_20px_rgba(7,21,56,0.3)]'
+                      }`}>
+                      {step.icon}
+
+                      {/* Number badge */}
+                      <span className={`absolute -top-3 -right-3 w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shadow-md opacity-100 text-white ${step.isPrimaryFilled
+                        ? 'bg-[#071538]'
+                        : 'bg-brand-primary'
+                        }`}>
+                        {step.num}
+                      </span>
+                    </div>
+                  </div>
+
+                  <h4 className="text-base md:text-lg font-bold text-slate-800 mb-1 transition-colors group-hover:text-brand-primary">
+                    {step.title}
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-tight md:max-w-[140px] mx-auto">
+                    {step.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-12 flex justify-center w-full">
+              <Button onClick={() => setShowSteps(false)} variant="primary" className="px-10 py-3 uppercase tracking-wider text-sm !font-body">
+                J'ai compris
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };
@@ -326,7 +343,7 @@ const LegalModal: React.FC<{ isOpen: boolean; onClose: () => void; title: string
           {children}
         </div>
         <div className="p-6 border-t border-slate-100 bg-slate-50 flex justify-end">
-          <Button variant="primary" onClick={onClose} className="px-8 py-3 w-full md:w-auto">
+          <Button variant="primary" onClick={onClose} className="px-8 py-3 w-full md:w-auto !font-body">
             J'ai compris
           </Button>
         </div>

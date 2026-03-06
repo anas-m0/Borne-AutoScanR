@@ -23,6 +23,7 @@ import GoodbyeScreen from './screens/GoodbyeScreen';
 
 // Components
 import { Button } from './components/Button';
+import { Clock } from './components/Clock';
 
 const BackgroundElements = () => (
   <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -364,13 +365,16 @@ export default function App() {
             </div>
           </div>
 
-          <button
-            onClick={() => setShowHelp(true)}
-            className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl glass-button text-slate-500 text-xs md:text-sm font-bold hover:text-brand-primary transition-all"
-          >
-            <HelpCircle size={18} />
-            <span>Aide</span>
-          </button>
+          <div className="flex items-center gap-3 md:gap-4">
+            <Clock />
+            <button
+              onClick={() => setShowHelp(true)}
+              className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl glass-button text-slate-500 text-xs md:text-sm font-bold hover:text-brand-primary transition-all"
+            >
+              <HelpCircle size={18} />
+              <span>Aide</span>
+            </button>
+          </div>
         </div>
 
         {showHeader && (
