@@ -87,19 +87,7 @@ const WelcomeScreen: React.FC<Props> = ({ onStart }) => {
         />
       </div>
 
-      {/* Enhanced Service Steps Button */}
-      <motion.button
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        onClick={() => setShowSteps(true)}
-        className="mb-12 flex items-center justify-center gap-2 px-6 pt-3 pb-2.5 bg-[#EDF3F8] rounded-full shadow-md hover:bg-[#dbe6f0] transition-all group hover:shadow-lg border border-[#0094A7]"
-      >
-        <span className="font-body font-semibold text-sm text-[#0094A7] leading-none">
-          Comment ça marche ?
-        </span>
-        <Info className="w-4 h-4 text-[#0094A7]" />
-      </motion.button>
+
 
       <motion.div
         whileHover={{ scale: 1.02 }}
@@ -145,7 +133,7 @@ const WelcomeScreen: React.FC<Props> = ({ onStart }) => {
             }`}
           icon={<ArrowRight className="w-6 h-6" />}
         >
-          Démarrer l'analyse
+          Commencer
         </Button>
       </motion.div>
 

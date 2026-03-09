@@ -20,6 +20,7 @@ import MapScreen from './screens/MapScreen';
 import BookingScreen from './screens/BookingScreen';
 import SendReportScreen from './screens/SendReportScreen';
 import GoodbyeScreen from './screens/GoodbyeScreen';
+import HowItWorksScreen from './screens/HowItWorksScreen';
 
 // Components
 import { Button } from './components/Button';
@@ -301,7 +302,8 @@ export default function App() {
 
   const goBack = () => {
     switch (currentStep) {
-      case AppStep.VEHICLE_SELECT: setCurrentStep(AppStep.WELCOME); break;
+      case AppStep.HOW_IT_WORKS: setCurrentStep(AppStep.WELCOME); break;
+      case AppStep.VEHICLE_SELECT: setCurrentStep(AppStep.HOW_IT_WORKS); break;
       case AppStep.PAYMENT_IMPRINT: setCurrentStep(AppStep.VEHICLE_SELECT); break;
       case AppStep.INSTRUCTIONS: setCurrentStep(AppStep.PAYMENT_IMPRINT); break;
       case AppStep.UNPLUG: setCurrentStep(AppStep.SCANNING); break;
@@ -321,7 +323,8 @@ export default function App() {
 
   const renderScreen = () => {
     switch (currentStep) {
-      case AppStep.WELCOME: return <WelcomeScreen onStart={() => setCurrentStep(AppStep.VEHICLE_SELECT)} />;
+      case AppStep.WELCOME: return <WelcomeScreen onStart={() => setCurrentStep(AppStep.HOW_IT_WORKS)} />;
+      case AppStep.HOW_IT_WORKS: return <HowItWorksScreen onContinue={() => setCurrentStep(AppStep.VEHICLE_SELECT)} />;
       case AppStep.VEHICLE_SELECT: return <VehicleSelectScreen onVehicleFound={(info) => { setVehicleInfo(info); setCurrentStep(AppStep.PAYMENT_IMPRINT); }} />;
       case AppStep.PAYMENT_IMPRINT: return <PaymentImprintScreen onAuthorized={() => setCurrentStep(AppStep.INSTRUCTIONS)} />;
       case AppStep.INSTRUCTIONS: return <InstructionsScreen vehicleName={vehicleInfo} onNext={() => setCurrentStep(AppStep.SCANNING)} />;
