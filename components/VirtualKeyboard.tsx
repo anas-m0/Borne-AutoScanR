@@ -134,10 +134,17 @@ const VirtualKeyboard: React.FC = () => {
             default: {
                 const char = isShift ? key.toUpperCase() : key;
                 const newValue = currentValue.slice(0, start) + char + currentValue.slice(end);
+                const expectedLength = newValue.length;
                 triggerInputEvent(activeElement, newValue);
-                requestAnimationFrame(() => {
-                    activeElement.setSelectionRange(start + char.length, start + char.length);
-                });
+                // Use setTimeout to let React process the onChange (which may transform
+                // the value, e.g. auto-inserting dashes in the license plate field).
+                // We then adjust cursor position based on any extra characters added.
+                setTimeout(() => {
+                    const actualLength = activeElement.value.length;
+                    const extraChars = actualLength - expectedLength;
+                    const cursorPos = start + char.length + Math.max(0, extraChars);
+                    activeElement.setSelectionRange(cursorPos, cursorPos);
+                }, 0);
                 if (isShift) setIsShift(false);
                 break;
             }
