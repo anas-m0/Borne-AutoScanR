@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { HeartHandshake } from 'lucide-react';
+import { Logo } from '../components/Logo';
 
 interface Props {
     onComplete: () => void;
@@ -27,12 +28,20 @@ const GoodbyeScreen: React.FC<Props> = ({ onComplete }) => {
     return (
         <div className="min-h-full flex flex-col items-center justify-center px-6 py-12 relative z-10 w-full max-w-3xl mx-auto text-center">
             <motion.div
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="mb-8"
+            >
+                <Logo size="lg" />
+            </motion.div>
+
+            <motion.div
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ type: 'spring', damping: 15 }}
-                className="w-24 h-24 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary mx-auto mb-8 shadow-inner"
+                transition={{ type: 'spring', damping: 15, delay: 0.1 }}
+                className="w-16 h-16 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary mx-auto mb-6 shadow-inner"
             >
-                <HeartHandshake className="w-12 h-12" />
+                <HeartHandshake className="w-8 h-8" />
             </motion.div>
 
             <motion.h2

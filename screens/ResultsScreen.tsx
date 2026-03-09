@@ -72,10 +72,7 @@ const ResultsScreen: React.FC<Props> = ({ vehicleName, onReceiveReport }) => {
                         <span className="absolute inset-0 flex items-center justify-center text-sm font-black text-slate-700">{healthScore}</span>
                     </div>
                     <div className="relative z-10">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Score santé</p>
-                        <p className="text-xl font-black text-slate-800 tracking-tight">
-                            {healthScore >= 70 ? 'Excellent état' : healthScore >= 40 ? 'Vigilance requise' : 'État critique'}
-                        </p>
+                        <p className="text-xl font-black text-slate-800 uppercase tracking-tight">Score santé</p>
                     </div>
                 </div>
 

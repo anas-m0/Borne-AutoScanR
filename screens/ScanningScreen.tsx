@@ -109,41 +109,33 @@ const ScanningScreen: React.FC<Props> = ({ onComplete }) => {
           transition={{ duration: 2, repeat: Infinity }}
           className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-4"
         >
-          <Activity size={13} /> Diagnostic en cours
+          <Activity size={13} /> Scan en cours
         </motion.div>
       </div>
 
-      {/* ── Element 2: Ad Banner (Centered) ── */}
+      {/* ── Separator ── */}
+      <div className="w-full max-w-4xl px-4">
+        <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
+      </div>
+
+      {/* ── Element 2: Ad Banner (Image Only) ── */}
       <div className="w-full flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-4xl bg-white rounded-[1.5rem] relative overflow-hidden flex shadow-lg border border-slate-200"
+          className="w-full max-w-4xl rounded-[1.5rem] overflow-hidden shadow-lg border border-slate-200"
         >
-          <div className="flex-1 p-6 md:p-8 flex flex-col justify-center relative z-10">
-            <span className="text-[10px] font-black text-brand-accent uppercase tracking-widest mb-2">Partenaire Sécurité</span>
-            <h3 className="text-2xl md:text-3xl font-heading font-black text-slate-800 mb-3 leading-tight tracking-tight">
-              Pneumatiques<br />
-              <span className="text-brand-accent">-20% chez EuroMaster</span>
-            </h3>
-            <p className="text-slate-500 text-xs max-w-sm mb-6">
-              Profitez de <strong className="text-slate-700">-20% sur la pose et l'équilibrage</strong> dans tous les centres EuroMaster.
-            </p>
-            <div className="flex gap-4">
-              <div className="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-xl border border-slate-100">
-                <ShieldCheck size={16} className="text-brand-accent" />
-                <span className="text-[10px] font-bold text-slate-900 uppercase">Pose certifiée</span>
-              </div>
-            </div>
-          </div>
-          <div className="w-1/3 relative">
-            <img
-              src="/images/pub-pneus.avif"
-              alt="Pneus EuroMaster"
-              className="absolute inset-0 w-full h-full object-cover opacity-80"
-            />
-          </div>
+          <img
+            src="/pub.avif"
+            alt="Publicité"
+            className="w-full h-auto object-contain block"
+          />
         </motion.div>
+      </div>
+
+      {/* ── Separator ── */}
+      <div className="w-full max-w-4xl px-4">
+        <div className="h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
       </div>
 
       {/* ── Element 3: Progress Bar + System Checks (Bottom) ── */}

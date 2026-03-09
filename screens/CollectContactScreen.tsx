@@ -9,7 +9,7 @@ interface Props {
 }
 
 const CollectContactScreen: React.FC<Props> = ({ onComplete }) => {
-  const [method, setMethod] = useState<'EMAIL' | 'SMS'>('EMAIL');
+  const [method, setMethod] = useState<'EMAIL' | 'SMS'>('SMS');
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
@@ -32,8 +32,8 @@ const CollectContactScreen: React.FC<Props> = ({ onComplete }) => {
       <div className="w-full bg-white rounded-[3rem] p-12 shadow-2xl border border-slate-100 relative min-h-[420px] flex flex-col justify-center">
         {!isSent && (
           <div className="flex bg-slate-100 p-1.5 rounded-2xl mb-12 shrink-0">
-            <button onClick={() => setMethod('EMAIL')} className={`flex-1 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${method === 'EMAIL' ? 'bg-white text-brand-primary shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>Email</button>
             <button onClick={() => setMethod('SMS')} className={`flex-1 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${method === 'SMS' ? 'bg-white text-brand-primary shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>SMS</button>
+            <button onClick={() => setMethod('EMAIL')} className={`flex-1 py-4 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${method === 'EMAIL' ? 'bg-white text-brand-primary shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>Email</button>
           </div>
         )}
 
