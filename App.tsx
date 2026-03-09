@@ -24,6 +24,8 @@ import GoodbyeScreen from './screens/GoodbyeScreen';
 // Components
 import { Button } from './components/Button';
 import { Clock } from './components/Clock';
+import { KeyboardProvider } from './components/KeyboardContext';
+import VirtualKeyboard from './components/VirtualKeyboard';
 
 const BackgroundElements = () => (
   <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -344,76 +346,80 @@ export default function App() {
   const showBackBtn = showHeader;
 
   return (
-    <div className="min-h-screen bg-brand-light text-slate-800 flex flex-col relative font-body selection:bg-brand-primary/10">
+    <KeyboardProvider>
+      <div className="min-h-screen bg-brand-light text-slate-800 flex flex-col relative font-body selection:bg-brand-primary/10">
 
-      <BackgroundElements />
+        <BackgroundElements />
 
-      {/* Header */}
-      <header className={`relative z-50 px-6 md:px-10 py-6 md:py-8 flex flex-col transition-all duration-500 shrink-0 ${showHeader ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none absolute w-full'}`}>
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-4 md:gap-8">
-            {showBackBtn && (
+        {/* Header */}
+        <header className={`relative z-50 px-6 md:px-10 py-6 md:py-8 flex flex-col transition-all duration-500 shrink-0 ${showHeader ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none absolute w-full'}`}>
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center gap-4 md:gap-8">
+              {showBackBtn && (
+                <button
+                  onClick={goBack}
+                  className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl glass-button flex items-center justify-center text-slate-400 hover:text-brand-primary hover:scale-105"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+              )}
+              <div className="scale-75 md:scale-90 origin-left">
+                <Logo size="sm" />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 md:gap-4">
+              <Clock />
               <button
-                onClick={goBack}
-                className="w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl glass-button flex items-center justify-center text-slate-400 hover:text-brand-primary hover:scale-105"
+                onClick={() => setShowHelp(true)}
+                className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl glass-button text-slate-500 text-xs md:text-sm font-bold hover:text-brand-primary transition-all"
               >
-                <ChevronLeft size={24} />
+                <HelpCircle size={18} />
+                <span>Aide</span>
               </button>
-            )}
-            <div className="scale-75 md:scale-90 origin-left">
-              <Logo size="sm" />
             </div>
           </div>
 
-          <div className="flex items-center gap-3 md:gap-4">
-            <Clock />
-            <button
-              onClick={() => setShowHelp(true)}
-              className="flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl glass-button text-slate-500 text-xs md:text-sm font-bold hover:text-brand-primary transition-all"
-            >
-              <HelpCircle size={18} />
-              <span>Aide</span>
-            </button>
-          </div>
-        </div>
+          {showHeader && (
+            <div className="w-full h-1.5 md:h-2 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+              <motion.div
+                className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary shadow-[0_0_15px_rgba(0,163,255,0.4)]"
+                initial={{ width: 0 }}
+                animate={{ width: `${progressPercent}%` }}
+                transition={{ duration: 0.8, ease: "circOut" }}
+              />
+            </div>
+          )}
+        </header>
 
-        {showHeader && (
-          <div className="w-full h-1.5 md:h-2 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+        <main className="flex-1 relative z-10 flex flex-col">
+          <AnimatePresence mode="wait">
             <motion.div
-              className="h-full bg-gradient-to-r from-brand-primary to-brand-secondary shadow-[0_0_15px_rgba(0,163,255,0.4)]"
-              initial={{ width: 0 }}
-              animate={{ width: `${progressPercent}%` }}
-              transition={{ duration: 0.8, ease: "circOut" }}
-            />
-          </div>
+              key={currentStep}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="flex-1 w-full flex flex-col h-full"
+            >
+              {renderScreen()}
+            </motion.div>
+          </AnimatePresence>
+        </main>
+
+        {currentStep === AppStep.WELCOME && (
+          <footer className="shrink-0 py-3 w-full text-center text-slate-400 text-[10px] md:text-xs z-10 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3">
+            <HeartHandshake size={16} className="text-brand-primary/40" />
+            <p>Expertise technologique au service de votre sérénité</p>
+          </footer>
         )}
-      </header>
 
-      <main className="flex-1 relative z-10 flex flex-col">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentStep}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="flex-1 w-full flex flex-col h-full"
-          >
-            {renderScreen()}
-          </motion.div>
+        <AnimatePresence>
+          {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
         </AnimatePresence>
-      </main>
 
-      {currentStep === AppStep.WELCOME && (
-        <footer className="shrink-0 py-3 w-full text-center text-slate-400 text-[10px] md:text-xs z-10 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-3">
-          <HeartHandshake size={16} className="text-brand-primary/40" />
-          <p>Expertise technologique au service de votre sérénité</p>
-        </footer>
-      )}
-
-      <AnimatePresence>
-        {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
-      </AnimatePresence>
-    </div>
+        <VirtualKeyboard />
+      </div>
+    </KeyboardProvider>
   );
 }
