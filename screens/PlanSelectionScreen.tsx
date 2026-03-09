@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from '../components/Button';
-import { Lock, CreditCard, ShieldCheck, Check, X, Printer, Mail } from 'lucide-react';
+import { Lock, CreditCard, ShieldCheck, Check, X, Printer, Mail, Tag } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
   issuesCount: number;
+  promoApplied?: boolean;
   onPlanSelected: () => void;
 }
 
-const PlanSelectionScreen: React.FC<Props> = ({ onPlanSelected }) => {
-  const [promoCode, setPromoCode] = useState('');
-  const [price, setPrice] = useState('19,90');
+const PlanSelectionScreen: React.FC<Props> = ({ onPlanSelected, promoApplied = false }) => {
+  const [promoCode, setPromoCode] = useState(promoApplied ? 'BENAMOR' : '');
+  const [price, setPrice] = useState(promoApplied ? '14,90' : '19,90');
   const [showModal, setShowModal] = useState(false);
   const [receiptChoice, setReceiptChoice] = useState<'print' | 'email' | null>(null);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handlePromoCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (promoApplied) return; // Don't allow changes if promo already applied from payment screen
     const code = e.target.value.toUpperCase();
     setPromoCode(code);
     setPrice(code === 'LANCEMENT' ? '15,90' : '19,90');
@@ -45,16 +47,28 @@ const PlanSelectionScreen: React.FC<Props> = ({ onPlanSelected }) => {
             <p className="text-brand-primary font-bold uppercase tracking-widest text-xs mt-1">Diagnostic clair</p>
           </div>
           <div className="text-right">
-            <div className="text-4xl font-body font-black text-brand-primary leading-none">{price}€</div>
+            {promoApplied ? (
+              <div className="flex flex-col items-end">
+                <span className="text-lg font-body font-bold text-slate-400 line-through leading-none">19,90€</span>
+                <div className="text-4xl font-body font-black text-brand-primary leading-none">{price}€</div>
+                <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 mt-1">
+                  <Tag size={12} />
+                  -5,00€ avec BENAMOR
+                </span>
+              </div>
+            ) : (
+              <div className="text-4xl font-body font-black text-brand-primary leading-none">{price}€</div>
+            )}
             <div className="mt-2 flex items-center gap-2 bg-slate-100 rounded-lg p-1">
               <input
                 type="text"
                 placeholder="Code promo"
                 value={promoCode}
                 onChange={handlePromoCodeChange}
-                className="bg-transparent text-xs font-bold uppercase w-24 px-2 outline-none text-brand-dark placeholder-slate-400"
+                disabled={promoApplied}
+                className={`bg-transparent text-xs font-bold uppercase w-24 px-2 outline-none placeholder-slate-400 ${promoApplied ? 'text-emerald-700 cursor-not-allowed' : 'text-brand-dark'}`}
               />
-              {promoCode === 'LANCEMENT' && <Check size={14} className="text-green-500" />}
+              {(promoCode === 'LANCEMENT' || promoApplied) && <Check size={14} className="text-green-500" />}
             </div>
           </div>
         </div>

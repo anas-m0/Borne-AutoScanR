@@ -6,12 +6,31 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface Props {
   onAuthorized: () => void;
+  onPromoApplied?: (applied: boolean) => void;
 }
 
-const PaymentImprintScreen: React.FC<Props> = ({ onAuthorized }) => {
+const PaymentImprintScreen: React.FC<Props> = ({ onAuthorized, onPromoApplied }) => {
   const [processing, setProcessing] = useState(false);
   const [promoCode, setPromoCode] = useState('');
   const [isPromoApplied, setIsPromoApplied] = useState(false);
+  const [promoError, setPromoError] = useState(false);
+
+  const VALID_PROMO = 'BENAMOR';
+  const BASE_PRICE = '19,90€';
+  const DISCOUNTED_PRICE = '14,90€';
+  const DISCOUNT_AMOUNT = '5,00€';
+
+  const handleApplyPromo = () => {
+    if (promoCode.trim().toUpperCase() === VALID_PROMO) {
+      setIsPromoApplied(true);
+      setPromoError(false);
+      onPromoApplied?.(true);
+    } else {
+      setIsPromoApplied(false);
+      setPromoError(true);
+      onPromoApplied?.(false);
+    }
+  };
 
   const handleSimulatePayment = () => {
     setProcessing(true);
@@ -81,15 +100,51 @@ const PaymentImprintScreen: React.FC<Props> = ({ onAuthorized }) => {
           <div className="flex flex-col xl:flex-row items-center justify-between pt-4 border-t border-slate-100 gap-4 mt-auto">
             <div className="flex flex-col justify-center text-center xl:text-left pt-2 mt-1">
               <span className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">Total à régler</span>
-              <span className="text-4xl md:text-5xl font-body font-black text-brand-primary leading-none tracking-tight">19,90€</span>
+              {isPromoApplied ? (
+                <div className="flex flex-col">
+                  <span className="text-lg font-body font-bold text-slate-400 line-through leading-none">{BASE_PRICE}</span>
+                  <span className="text-4xl md:text-5xl font-body font-black text-brand-primary leading-none tracking-tight">{DISCOUNTED_PRICE}</span>
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 mt-1">
+                    <Tag size={12} />
+                    -{DISCOUNT_AMOUNT} avec {VALID_PROMO}
+                  </span>
+                </div>
+              ) : (
+                <span className="text-4xl md:text-5xl font-body font-black text-brand-primary leading-none tracking-tight">{BASE_PRICE}</span>
+              )}
             </div>
 
             <div className="w-full xl:w-auto flex flex-col gap-2 min-w-[240px]">
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest px-1 text-center xl:text-left">Code promo</h4>
               <div className="flex gap-2 w-full">
-                <input type="text" placeholder="CODE" className="flex-1 w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold placeholder-slate-400 focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all uppercase" />
-                <Button variant="outline" className="py-3 px-4 text-xs whitespace-nowrap !bg-white !font-body">Appliquer</Button>
+                <input
+                  type="text"
+                  placeholder="CODE"
+                  value={promoCode}
+                  onChange={(e) => { setPromoCode(e.target.value); setPromoError(false); }}
+                  disabled={isPromoApplied}
+                  className={`flex-1 w-full bg-slate-50 border rounded-xl px-4 py-3 text-sm font-bold placeholder-slate-400 focus:outline-none focus:ring-2 transition-all uppercase ${isPromoApplied
+                    ? 'border-emerald-300 bg-emerald-50 text-emerald-700 cursor-not-allowed'
+                    : promoError
+                      ? 'border-red-300 focus:border-red-400 focus:ring-red-200'
+                      : 'border-slate-200 focus:border-brand-primary focus:ring-brand-primary/20'
+                    }`}
+                />
+                {isPromoApplied ? (
+                  <div className="flex items-center gap-1.5 px-4 py-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-700 text-xs font-bold whitespace-nowrap">
+                    <Check size={14} />
+                    Appliqué
+                  </div>
+                ) : (
+                  <Button variant="outline" onClick={handleApplyPromo} className="py-3 px-4 text-xs whitespace-nowrap !bg-white !font-body">Appliquer</Button>
+                )}
               </div>
+              {promoError && (
+                <p className="text-xs text-red-500 font-medium px-1 flex items-center gap-1">
+                  <AlertCircle size={12} />
+                  Code promo invalide
+                </p>
+              )}
             </div>
           </div>
         </div>

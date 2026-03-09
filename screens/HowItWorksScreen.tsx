@@ -110,22 +110,6 @@ const HowItWorksScreen: React.FC<Props> = ({ onContinue }) => {
                 ))}
             </div>
 
-            {/* Info box */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
-                className="w-full max-w-2xl bg-white rounded-2xl p-5 border border-slate-100 shadow-md flex items-center gap-4 mb-8"
-            >
-                <div className="w-12 h-12 rounded-xl bg-brand-primary/10 flex items-center justify-center shrink-0">
-                    <Activity className="w-6 h-6 text-brand-primary" />
-                </div>
-                <div>
-                    <h4 className="font-bold text-slate-800 text-sm mb-0.5">Durée estimée : ~5 minutes</h4>
-                    <p className="text-xs text-slate-500">Le processus est entièrement guidé. Laissez-vous guider par les instructions à l'écran.</p>
-                </div>
-            </motion.div>
-
             {/* CTA */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

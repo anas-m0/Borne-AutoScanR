@@ -295,6 +295,7 @@ export default function App() {
   const [selectedGarageId, setSelectedGarageId] = useState<string | null>(null);
   const [showHelp, setShowHelp] = useState(false);
   const [finalAction, setFinalAction] = useState<'BOOKED' | 'REPORT_SENT' | 'NONE'>('NONE');
+  const [promoApplied, setPromoApplied] = useState(false);
 
   const stepsList = Object.values(AppStep);
   const currentStepIndex = stepsList.indexOf(currentStep);
@@ -326,11 +327,11 @@ export default function App() {
       case AppStep.WELCOME: return <WelcomeScreen onStart={() => setCurrentStep(AppStep.HOW_IT_WORKS)} />;
       case AppStep.HOW_IT_WORKS: return <HowItWorksScreen onContinue={() => setCurrentStep(AppStep.VEHICLE_SELECT)} />;
       case AppStep.VEHICLE_SELECT: return <VehicleSelectScreen onVehicleFound={(info) => { setVehicleInfo(info); setCurrentStep(AppStep.PAYMENT_IMPRINT); }} />;
-      case AppStep.PAYMENT_IMPRINT: return <PaymentImprintScreen onAuthorized={() => setCurrentStep(AppStep.INSTRUCTIONS)} />;
+      case AppStep.PAYMENT_IMPRINT: return <PaymentImprintScreen onAuthorized={() => setCurrentStep(AppStep.INSTRUCTIONS)} onPromoApplied={(applied) => setPromoApplied(applied)} />;
       case AppStep.INSTRUCTIONS: return <InstructionsScreen vehicleName={vehicleInfo} onNext={() => setCurrentStep(AppStep.SCANNING)} />;
       case AppStep.SCANNING: return <ScanningScreen onComplete={(count) => { setIssuesCount(count); setCurrentStep(AppStep.UNPLUG); }} />;
       case AppStep.UNPLUG: return <UnplugScreen onComplete={() => setCurrentStep(AppStep.PLAN_SELECTION)} />;
-      case AppStep.PLAN_SELECTION: return <PlanSelectionScreen issuesCount={issuesCount} onPlanSelected={() => setCurrentStep(AppStep.RESULTS)} />;
+      case AppStep.PLAN_SELECTION: return <PlanSelectionScreen issuesCount={issuesCount} promoApplied={promoApplied} onPlanSelected={() => setCurrentStep(AppStep.RESULTS)} />;
       case AppStep.RESULTS: return <ResultsScreen vehicleName={vehicleInfo} onReceiveReport={() => setCurrentStep(AppStep.COLLECT_CONTACT)} />;
       case AppStep.COLLECT_CONTACT: return <CollectContactScreen onComplete={() => setCurrentStep(AppStep.MAP)} />;
       case AppStep.MAP: return <MapScreen onBook={(garageId) => { setSelectedGarageId(garageId); setCurrentStep(AppStep.BOOKING); }} onSendReport={() => setCurrentStep(AppStep.SEND_REPORT)} />;
