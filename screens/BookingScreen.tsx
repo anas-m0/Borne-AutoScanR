@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Button } from '../components/Button';
 import { Garage } from '../types';
 import { Calendar, Clock, User, Phone, Mail, CheckCircle, Car, MessageSquare } from 'lucide-react';
@@ -269,67 +270,70 @@ const BookingScreen: React.FC<Props> = ({ garage, onComplete, onBack }) => {
       </div>
 
       {/* SMS Verification Overlay */}
-      <AnimatePresence>
-        {verifying && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-md p-6"
-          >
+      {createPortal(
+        <AnimatePresence>
+          {verifying && (
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: 'spring', damping: 20 }}
-              className="bg-white rounded-[2.5rem] p-10 w-full max-w-md shadow-2xl border border-white text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-md p-6"
             >
-              <div className="w-16 h-16 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mx-auto mb-6">
-                <Phone size={28} />
-              </div>
-              <h3 className="text-2xl font-black text-brand-dark mb-2">Vérification SMS</h3>
-              <p className="text-slate-500 leading-relaxed mb-8">
-                Un code à 4 chiffres a été envoyé au numéro fourni. Saisissez-le ci-dessous pour confirmer votre rendez-vous.
-              </p>
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                transition={{ type: 'spring', damping: 20 }}
+                className="bg-white rounded-[2.5rem] p-10 w-full max-w-md shadow-2xl border border-white text-center"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-brand-primary/10 flex items-center justify-center text-brand-primary mx-auto mb-6">
+                  <Phone size={28} />
+                </div>
+                <h3 className="text-2xl font-black text-brand-dark mb-2">Vérification SMS</h3>
+                <p className="text-slate-500 leading-relaxed mb-8">
+                  Un code à 4 chiffres a été envoyé au numéro fourni. Saisissez-le ci-dessous pour confirmer votre rendez-vous.
+                </p>
 
-              <input
-                type="text"
-                inputMode="numeric"
-                maxLength={4}
-                value={smsCode}
-                onChange={(e) => { setSmsCode(e.target.value.replace(/\D/g, '')); setCodeError(false); }}
-                placeholder="• • • •"
-                className={`w-full text-center text-4xl font-black tracking-[1rem] bg-slate-50 border-2 rounded-2xl px-6 py-5 mb-3 focus:outline-none transition-all ${codeError
-                  ? 'border-red-400 text-red-500 shake'
-                  : 'border-slate-200 text-brand-dark focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20'
-                  }`}
-              />
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={4}
+                  value={smsCode}
+                  onChange={(e) => { setSmsCode(e.target.value.replace(/\D/g, '')); setCodeError(false); }}
+                  placeholder="• • • •"
+                  className={`w-full text-center text-4xl font-black tracking-[1rem] bg-slate-50 border-2 rounded-2xl px-6 py-5 mb-3 focus:outline-none transition-all ${codeError
+                    ? 'border-red-400 text-red-500 shake'
+                    : 'border-slate-200 text-brand-dark focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20'
+                    }`}
+                />
 
-              {codeError && (
-                <p className="text-red-500 text-sm font-bold mb-4">Code incorrect. Réessayez. <span className="text-slate-400 font-normal">(Démo: 1234)</span></p>
-              )}
+                {codeError && (
+                  <p className="text-red-500 text-sm font-bold mb-4">Code incorrect. Réessayez. <span className="text-slate-400 font-normal">(Démo: 1234)</span></p>
+                )}
 
-              <div className="flex flex-col gap-3 mt-6">
-                <Button
-                  variant="primary"
-                  className="w-full py-4 text-lg"
-                  disabled={smsCode.length !== 4}
-                  onClick={handleVerify}
-                  icon={<CheckCircle size={20} />}
-                >
-                  Confirmer
-                </Button>
-                <button
-                  onClick={() => { setVerifying(false); setSmsCode(''); setCodeError(false); }}
-                  className="text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors"
-                >
-                  Annuler
-                </button>
-              </div>
+                <div className="flex flex-col gap-3 mt-6">
+                  <Button
+                    variant="primary"
+                    className="w-full py-4 text-lg"
+                    disabled={smsCode.length !== 4}
+                    onClick={handleVerify}
+                    icon={<CheckCircle size={20} />}
+                  >
+                    Confirmer
+                  </Button>
+                  <button
+                    onClick={() => { setVerifying(false); setSmsCode(''); setCodeError(false); }}
+                    className="text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    Annuler
+                  </button>
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 };
